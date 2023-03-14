@@ -85,6 +85,7 @@ extension LoginViewController {
         
         loginButton.configureSignInButton("Login")
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        self.disableButton(loginButton, .background)
         verticalContentStackView.addArrangedSubview(loginButton)
     }
     

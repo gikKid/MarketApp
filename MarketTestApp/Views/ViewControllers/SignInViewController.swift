@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 class SignInViewController: BaseViewController {
 
@@ -14,10 +15,13 @@ class SignInViewController: BaseViewController {
     var scrollView = UIScrollView()
     let contentVertStackView = UIStackView()
     let loginHorizontalStackView = UIStackView()
+    let validateErrorLabel = UILabel()
         
     lazy var viewModel = {
        SignInViewModel()
     }()
+    private var buttonSubscriber:AnyCancellable?
+    private var errorLabelSubscriber:AnyCancellable?
     
     private enum UIConstants {
         static let viewHeightBetweenTopAnchorAndLabel = 125.0
@@ -29,10 +33,23 @@ class SignInViewController: BaseViewController {
         static let edgeWidthTextField = 44.0
         static let buttonHeight = 46.0
         static let loginTextFont = 14.0
+        static let errorLabelFont = 13.0
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttonSubscriber = self.viewModel.isSignInenabled
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] result in
+                guard let self = self else {return}
+                self.confirmButton.isEnabled = result
+                result == true ? self.enableButton(self.confirmButton, UIColor(named: Resources.Colors.mainColor), .background) : self.disableButton(self.confirmButton, .background)
+            })
+        
+        errorLabelSubscriber = self.viewModel.isValidEmailPublisher
+            .dropFirst(1) // ignore first value for hidden error label at start
+            .receive(on: RunLoop.main)
+            .assign(to: \.isHidden, on: validateErrorLabel)
     }
 }
 
@@ -65,6 +82,12 @@ extension SignInViewController {
         viewBtwLabelTF.heightAnchor.constraint(equalToConstant: UIConstants.viewHeightBetweenTopLabelAndTextField).isActive = true
         contentVertStackView.addArrangedSubview(viewBtwLabelTF)
         
+        validateErrorLabel.font = .systemFont(ofSize: UIConstants.errorLabelFont)
+        validateErrorLabel.textColor = .systemRed
+        validateErrorLabel.isHidden = true
+        validateErrorLabel.text = Resources.Titles.emailValidateError
+        contentVertStackView.addArrangedSubview(validateErrorLabel)
+        
         firstNameTextField.configureSignInTextField(placeholder: Resources.Titles.firstName)
         firstNameTextField.returnKeyType = .next
         firstNameTextField.delegate = self
@@ -93,6 +116,8 @@ extension SignInViewController {
         contentVertStackView.addArrangedSubview(viewBtwButtonTF)
         
         confirmButton.configureSignInButton(Resources.Titles.signIn)
+        confirmButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        self.disableButton(confirmButton, .background)
         contentVertStackView.addArrangedSubview(confirmButton)
         
         loginTextLabel.text = Resources.Titles.loginTextInSignIn
@@ -179,6 +204,10 @@ extension SignInViewController {
     @objc private func loginButtonTapped(_ sender:UIButton) {
         super.appCoordinator.showLoginVC()
     }
+    
+    @objc private func signInButtonTapped(_ sender:UIButton) {
+        
+    }
 }
 
 
@@ -199,6 +228,20 @@ extension SignInViewController:UITextFieldDelegate {
             break
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {return}
+        switch textField {
+        case firstNameTextField:
+            self.viewModel.setField(field: .firstName(text))
+        case lastNameTextField:
+            self.viewModel.setField(field: .secondName(text))
+        case emailTextField:
+            self.viewModel.setField(field: .email(text))
+        default:
+            break
+        }
     }
 }
 

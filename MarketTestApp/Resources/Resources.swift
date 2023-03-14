@@ -26,6 +26,7 @@ enum Resources {
         static let signInWithApple = "Sign in with Apple"
         static let password = "Password"
         static let welcomeBack = "Welcome back"
+        static let emailValidateError = "The email isnt correct!"
     }
     
     enum Images {

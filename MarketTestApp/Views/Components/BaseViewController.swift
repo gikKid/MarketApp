@@ -71,7 +71,7 @@ extension BaseViewController {
         }
     }
     
-    public func enableButton(_ button:UIButton,_ color:UIColor,_ colorType:ColorButtonType) {
+    public func enableButton(_ button:UIButton,_ color:UIColor?,_ colorType:ColorButtonType) {
         button.isEnabled = true
         
         switch colorType {

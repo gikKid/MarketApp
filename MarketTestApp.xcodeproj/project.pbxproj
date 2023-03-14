@@ -21,6 +21,7 @@
 		54A125EE29BD2DCA0020C633 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A125ED29BD2DCA0020C633 /* SignInViewModel.swift */; };
 		54A2162129BF96C60028B1D4 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */; };
 		54A2162329BF96DA0028B1D4 /* Extension+UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2162229BF96DA0028B1D4 /* Extension+UITextField.swift */; };
+		54B11AEB29C0516000A4D16F /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B11AEA29C0516000A4D16F /* Extension+String.swift */; };
 		54B4DC0229BFD06C00520C9B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B4DC0129BFD06C00520C9B /* Coordinator.swift */; };
 		54B4DC0429BFD09900520C9B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B4DC0329BFD09900520C9B /* AppCoordinator.swift */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		54A125ED29BD2DCA0020C633 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
 		54A2162229BF96DA0028B1D4 /* Extension+UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UITextField.swift"; sourceTree = "<group>"; };
+		54B11AEA29C0516000A4D16F /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		54B4DC0129BFD06C00520C9B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		54B4DC0329BFD09900520C9B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		BF47B6919858BC2D2B764A00 /* Pods_MarketTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarketTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,7 @@
 				544CD86729BD258F00D9B875 /* Extension+UIView.swift */,
 				54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */,
 				54A2162229BF96DA0028B1D4 /* Extension+UITextField.swift */,
+				54B11AEA29C0516000A4D16F /* Extension+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				544CD86329BD24B800D9B875 /* Resources.swift in Sources */,
 				544CD86829BD258F00D9B875 /* Extension+UIView.swift in Sources */,
 				544CD84929BCCF8300D9B875 /* SceneDelegate.swift in Sources */,
+				54B11AEB29C0516000A4D16F /* Extension+String.swift in Sources */,
 				54A125EE29BD2DCA0020C633 /* SignInViewModel.swift in Sources */,
 				54B4DC0229BFD06C00520C9B /* Coordinator.swift in Sources */,
 				544CD85B29BD23FA00D9B875 /* BaseViewController.swift in Sources */,
