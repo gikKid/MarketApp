@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 class LoginViewController: BaseViewController {
 
@@ -9,7 +10,12 @@ class LoginViewController: BaseViewController {
     let scrollView = UIScrollView()
     let verticalContentStackView = UIStackView()
     let eyeButton = UIButton(type: .custom)
-        
+    private var buttonSubscriber:AnyCancellable?
+    
+    lazy var viewModel = {
+       LoginViewModel()
+    }()
+    
     private enum UIConstants {
         static let topHeightView = 126.0
         static let heightViewbetweenLabelAndTextField = 80.0
@@ -24,6 +30,27 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttonSubscriber = self.viewModel.isLoginEnabledPublisher
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] value in
+                guard let self = self else {return}
+                value == true ? self.enableButton(self.loginButton, UIColor(named: Resources.Colors.mainColor), .background) : self.disableButton(self.loginButton, .background)
+            })
+        
+        self.viewModel.errorCompletion = { [weak self] errorMessage in
+            guard let self = self else {return}
+            self.present(self.createInfoAlert(message: errorMessage, title: Resources.Titles.error), animated: true)
+        }
+        self.viewModel.stateCompletion = { state in
+            switch state {
+            case .successLogin:
+                super.appCoordinator.showMainVC()
+            case .failLogin(let error):
+                self.present(self.createInfoAlert(message: error, title: Resources.Titles.error), animated: true)
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -57,6 +84,8 @@ extension LoginViewController {
         verticalContentStackView.addArrangedSubview(viewBtwLabelTF)
         
         firstNameTextField.configureSignInTextField(placeholder: Resources.Titles.firstName)
+        firstNameTextField.delegate = self
+        firstNameTextField.returnKeyType = .next
         verticalContentStackView.addArrangedSubview(firstNameTextField)
         
         let viewBtfTextFields = UIView()
@@ -66,6 +95,8 @@ extension LoginViewController {
         passwordTextField.configureSignInTextField(placeholder: Resources.Titles.password)
         passwordTextField.isSecureTextEntry = true
         passwordTextField.rightViewMode = .always
+        passwordTextField.delegate = self
+        passwordTextField.returnKeyType = .done
         
         var eyeButtonConfiguration = UIButton.Configuration.plain()
         eyeButtonConfiguration.image = UIConstants.notEyeImage
@@ -117,6 +148,7 @@ extension LoginViewController {
 //MARK: - Button method
 extension LoginViewController {
     @objc private func loginButtonTapped(_ sender:UIButton) {
+        self.viewModel.userTapLogin()
     }
     
     @objc private func eyeButtonTapped(_ sender:UIButton) {
@@ -130,14 +162,24 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case firstNameTextField:
-            
             passwordTextField.becomeFirstResponder()
         case passwordTextField:
-            
             passwordTextField.resignFirstResponder()
         default:
             break
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {return}
+        switch textField {
+        case firstNameTextField:
+            self.viewModel.setField(.firstName(text))
+        case passwordTextField:
+            self.viewModel.setField(.password(text))
+        default:
+            break
+        }
     }
 }

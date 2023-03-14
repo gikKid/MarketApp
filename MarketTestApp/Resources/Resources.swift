@@ -1,5 +1,10 @@
 enum Resources {
     
+    enum Application {
+        static let coreDataName = "Data"
+        static let userEntity = "User"
+    }
+    
     enum CornerRadius {
         static let textFieldSignIn = 15.0
         static let buttonCornerSignIn = 16.0
@@ -15,6 +20,7 @@ enum Resources {
     }
     
     enum Titles {
+        static let error = "Error"
         static let confirmAlertActionTitle = "OK"
         static let signIn = "Sign in"
         static let lastName = "Last name"
@@ -27,6 +33,8 @@ enum Resources {
         static let password = "Password"
         static let welcomeBack = "Welcome back"
         static let emailValidateError = "The email isnt correct!"
+        static let emailUniqueError = "Ooops, somebody with this email has been registered, try another one!"
+        static let loginError = "The user not found, try again!"
     }
     
     enum Images {

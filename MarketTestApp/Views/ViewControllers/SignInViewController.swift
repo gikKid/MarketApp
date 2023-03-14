@@ -38,7 +38,7 @@ class SignInViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        buttonSubscriber = self.viewModel.isSignInenabled
+        buttonSubscriber = self.viewModel.isSigninEnabled
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] result in
                 guard let self = self else {return}
@@ -50,6 +50,20 @@ class SignInViewController: BaseViewController {
             .dropFirst(1) // ignore first value for hidden error label at start
             .receive(on: RunLoop.main)
             .assign(to: \.isHidden, on: validateErrorLabel)
+        
+        self.viewModel.errorCompletion = {[weak self] errorText in
+            guard let self = self else {return}
+            self.present(self.createInfoAlert(message: errorText, title: Resources.Titles.error), animated: true)
+        }
+        
+        self.viewModel.stateCompletion = { state in
+            switch state {
+            case .successRegister:
+                super.appCoordinator.showMainVC()
+            case .none:
+                break
+            }
+        }
     }
 }
 
@@ -109,6 +123,7 @@ extension SignInViewController {
         emailTextField.configureSignInTextField(placeholder: Resources.Titles.email)
         emailTextField.returnKeyType = .done
         emailTextField.delegate = self
+        emailTextField.keyboardType = .emailAddress
         contentVertStackView.addArrangedSubview(emailTextField)
         
         let viewBtwButtonTF = UIView()
@@ -206,7 +221,7 @@ extension SignInViewController {
     }
     
     @objc private func signInButtonTapped(_ sender:UIButton) {
-        
+        self.viewModel.userTapSigninButton()
     }
 }
 

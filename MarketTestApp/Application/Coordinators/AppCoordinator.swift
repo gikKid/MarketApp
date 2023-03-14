@@ -9,7 +9,7 @@ final class AppCoordinator:Coordinator {
 
     func start() {
         let signinVC = SignInViewController(appCoordinator: self)
-        navigationController.setViewControllers([signinVC], animated: true)
+        navigationController.setViewControllers([signinVC], animated: true) // first view when user for the first time open app
     }
     
     func showLoginVC() {
@@ -18,6 +18,7 @@ final class AppCoordinator:Coordinator {
     }
     
     func showMainVC() {
-        
+        let mainVC = MainViewController(appCoordinator: self)
+        navigationController.setViewControllers([mainVC], animated: true)
     }
 }
