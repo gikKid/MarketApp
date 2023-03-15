@@ -6,8 +6,7 @@ class TabBarViewController: UITabBarController {
     
     private enum UIConstants {
         static let tabBarCornerRadius = 30.0
-        static let UIImageTabBarConfigur = UIImage.SymbolConfiguration(weight: .heavy)
-        static let tabbarHeight = 100.0
+        static let UIImageTabBarConfigur = UIImage.SymbolConfiguration(weight: .bold)
         static let circleSelectedItemHeight = 50.0
     }
     
@@ -26,22 +25,28 @@ class TabBarViewController: UITabBarController {
     }
     
     override func viewDidLayoutSubviews() {
-        tabBar.frame.size.height = UIConstants.tabbarHeight
-        tabBar.frame.origin.y = view.frame.size.height - UIConstants.tabbarHeight
+        super.viewDidLayoutSubviews()
         self.configureSelectedItem()
     }
-}
-
-//MARK: - TabbarDelegate
-extension TabBarViewController {
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        self.animateSelection(item)
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.configureCenteredItems()
     }
 }
 
 
 //MARK: - Private Methods
 extension TabBarViewController {
+    
+    private func configureCenteredItems() {
+        let buttons = tabBar.subviews.filter{String(describing: type(of: $0)) == "UITabBarButton"}
+        buttons.forEach {
+            if let superviewHeight = $0.superview?.frame.height {
+                $0.center = CGPoint(x: $0.frame.midX, y: superviewHeight * 0.5)
+            }
+        }
+    }
     
     private func configureSelectedItem() {
         let size = CGSize(width: tabBar.frame.width / CGFloat(tabBar.items!.count) , height: tabBar.frame.height)
@@ -53,6 +58,8 @@ extension TabBarViewController {
         self.appCoordinator.navigationController.navigationBar.isHidden = true
         self.view.backgroundColor = .systemBackground
 
+        self.delegate = self
+        
         let homeVC = appCoordinator.createHomeVC()
         homeVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: Resources.Images.house,withConfiguration: UIConstants.UIImageTabBarConfigur), tag: 0)
         
@@ -72,20 +79,14 @@ extension TabBarViewController {
         
         tabBar.layer.masksToBounds = true
         tabBar.isTranslucent = true
+        tabBar.itemPositioning = .centered
         tabBar.layer.cornerRadius = UIConstants.tabBarCornerRadius
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
-        tabBar.backgroundColor = .systemBackground
+        tabBar.backgroundColor = .white
         tabBar.unselectedItemTintColor = .gray
         tabBar.tintColor = UIColor(named: Resources.Colors.selectedTabBar)!.withAlphaComponent(0.9)
     }
-    
-    private func animateSelection(_ item: UITabBarItem) {
-        guard let barItemView = item.value(forKey: "view") as? UIView else {return}
-        let timeInterval:TimeInterval = 0.2
-        let propertyAnimator = UIViewPropertyAnimator(duration: timeInterval, dampingRatio: 0.5) {
-            barItemView.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
-        }
-        propertyAnimator.addAnimations({barItemView.transform = .identity},delayFactor: CGFloat(timeInterval))
-        propertyAnimator.startAnimation()
-    }
 }
+
+//MARK: - UITabBarControllerDelegate
+extension TabBarViewController: UITabBarControllerDelegate {}
