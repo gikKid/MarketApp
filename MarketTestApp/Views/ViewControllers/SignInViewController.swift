@@ -59,7 +59,7 @@ class SignInViewController: BaseViewController {
         self.viewModel.stateCompletion = { state in
             switch state {
             case .successRegister:
-                super.appCoordinator.showMainVC()
+                super.appCoordinator.showTabBarVC()
             case .none:
                 break
             }

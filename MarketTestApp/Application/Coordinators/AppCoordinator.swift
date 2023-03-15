@@ -8,6 +8,17 @@ final class AppCoordinator:Coordinator {
     }
 
     func start() {
+        let defaults = UserDefaults.standard
+        let isEntered = defaults.bool(forKey: Resources.UserDefault.isEnteredKey)
+        switch isEntered {
+        case true:
+            self.showTabBarVC()
+        case false:
+            self.showSigninVC()
+        }
+    }
+    
+    func showSigninVC() {
         let signinVC = SignInViewController(appCoordinator: self)
         navigationController.setViewControllers([signinVC], animated: true) // first view when user for the first time open app
     }
@@ -17,8 +28,12 @@ final class AppCoordinator:Coordinator {
         navigationController.setViewControllers([loginVC], animated: true) // in tech task we havent back navigation button
     }
     
-    func showMainVC() {
-        let mainVC = MainViewController(appCoordinator: self)
-        navigationController.setViewControllers([mainVC], animated: true)
+    func showTabBarVC() {
+        let tabBarVC = TabBarViewController(appCoordinator: self)
+        navigationController.setViewControllers([tabBarVC], animated: true)
+    }
+    
+    func createHomeVC() -> HomeViewController{
+        HomeViewController(appCoordinator: self)
     }
 }

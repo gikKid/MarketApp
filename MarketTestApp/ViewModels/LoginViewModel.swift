@@ -12,7 +12,7 @@ enum LoginState {
     case none
 }
 
-final class LoginViewModel:NSObject {
+final class LoginViewModel:NSObject,LoginViewModelProtocol {
     
     var errorCompletion: ((String) -> Void)?
     var stateCompletion:((LoginState) -> Void)?

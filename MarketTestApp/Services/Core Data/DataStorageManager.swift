@@ -14,7 +14,7 @@ final class DataStorageManager {
     }()
     
     private lazy var persistentContainer:NSPersistentContainer = {
-        let container = NSPersistentContainer(name: Resources.Application.coreDataName)
+        let container = NSPersistentContainer(name: Resources.CoreData.coreDataName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("\(error) \(error.userInfo)")

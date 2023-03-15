@@ -11,7 +11,7 @@ enum SigninState {
     case successRegister,none
 }
 
-final class SignInViewModel:NSObject {
+final class SignInViewModel:NSObject,LoginViewModelProtocol {
     
     var errorCompletion: ((String) -> Void)?
     var stateCompletion: ((SigninState) -> Void)?
@@ -55,6 +55,7 @@ final class SignInViewModel:NSObject {
             do {
                 try DataStorageManager.shared.createUser(email: self.email,firstName: self.firstName, secondName: self.secondName)
                 self.state = .successRegister
+                self.saveEntered()
             } catch let error {
                 self.errorCompletion?("\(error.localizedDescription)")
             }

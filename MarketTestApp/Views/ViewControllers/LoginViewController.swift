@@ -44,7 +44,8 @@ class LoginViewController: BaseViewController {
         self.viewModel.stateCompletion = { state in
             switch state {
             case .successLogin:
-                super.appCoordinator.showMainVC()
+                super.appCoordinator.showTabBarVC()
+                self.viewModel.saveEntered()
             case .failLogin(let error):
                 self.present(self.createInfoAlert(message: error, title: Resources.Titles.error), animated: true)
             default:

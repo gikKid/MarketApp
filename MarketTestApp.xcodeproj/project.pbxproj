@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		11012206324F9743B465BEB2 /* Pods_MarketTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF47B6919858BC2D2B764A00 /* Pods_MarketTestApp.framework */; };
 		54270CDC29BF5F8100B344C4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54270CDB29BF5F8100B344C4 /* LoginViewController.swift */; };
+		543AF61F29C1AB5000AFC504 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AF61E29C1AB5000AFC504 /* TabBarViewController.swift */; };
+		543AF62129C1FBDD00AFC504 /* LoginViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AF62029C1FBDD00AFC504 /* LoginViewModelProtocol.swift */; };
 		544CD84729BCCF8300D9B875 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544CD84629BCCF8300D9B875 /* AppDelegate.swift */; };
 		544CD84929BCCF8300D9B875 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544CD84829BCCF8300D9B875 /* SceneDelegate.swift */; };
 		544CD85029BCCF8700D9B875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544CD84F29BCCF8700D9B875 /* Assets.xcassets */; };
@@ -26,15 +28,18 @@
 		54B4DC0429BFD09900520C9B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B4DC0329BFD09900520C9B /* AppCoordinator.swift */; };
 		54F0722629C0D3760053DC06 /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54F0722429C0D3760053DC06 /* Data.xcdatamodeld */; };
 		54F0722C29C0D4E10053DC06 /* DataStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0722B29C0D4E10053DC06 /* DataStorageManager.swift */; };
-		54F0722E29C0E7900053DC06 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0722D29C0E7900053DC06 /* MainViewController.swift */; };
+		54F0722E29C0E7900053DC06 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0722D29C0E7900053DC06 /* HomeViewController.swift */; };
 		54F0723129C0E8BF0053DC06 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0722F29C0E8BF0053DC06 /* User+CoreDataClass.swift */; };
 		54F0723229C0E8BF0053DC06 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0723029C0E8BF0053DC06 /* User+CoreDataProperties.swift */; };
 		54F0723429C0EA240053DC06 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F0723329C0EA240053DC06 /* LoginViewModel.swift */; };
+		54FA61D029C210E7001E6FF6 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FA61CF29C210E7001E6FF6 /* Extension+UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0CF41CDEE457E1F51F02F436 /* Pods-MarketTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarketTestApp.debug.xcconfig"; path = "Target Support Files/Pods-MarketTestApp/Pods-MarketTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 		54270CDB29BF5F8100B344C4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		543AF61E29C1AB5000AFC504 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		543AF62029C1FBDD00AFC504 /* LoginViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelProtocol.swift; sourceTree = "<group>"; };
 		544CD84329BCCF8300D9B875 /* MarketTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarketTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		544CD84629BCCF8300D9B875 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		544CD84829BCCF8300D9B875 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,10 +59,11 @@
 		54B4DC0329BFD09900520C9B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		54F0722529C0D3760053DC06 /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
 		54F0722B29C0D4E10053DC06 /* DataStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageManager.swift; sourceTree = "<group>"; };
-		54F0722D29C0E7900053DC06 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		54F0722D29C0E7900053DC06 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		54F0722F29C0E8BF0053DC06 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		54F0723029C0E8BF0053DC06 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		54F0723329C0EA240053DC06 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		54FA61CF29C210E7001E6FF6 /* Extension+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		BF47B6919858BC2D2B764A00 /* Pods_MarketTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarketTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D283EC940F4B781EEA2A259A /* Pods-MarketTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarketTestApp.release.xcconfig"; path = "Target Support Files/Pods-MarketTestApp/Pods-MarketTestApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +175,7 @@
 				54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */,
 				54A2162229BF96DA0028B1D4 /* Extension+UITextField.swift */,
 				54B11AEA29C0516000A4D16F /* Extension+String.swift */,
+				54FA61CF29C210E7001E6FF6 /* Extension+UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -177,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				54B4DC0129BFD06C00520C9B /* Coordinator.swift */,
+				543AF62029C1FBDD00AFC504 /* LoginViewModelProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -194,7 +202,8 @@
 			children = (
 				54A125E429BD27FD0020C633 /* SignInViewController.swift */,
 				54270CDB29BF5F8100B344C4 /* LoginViewController.swift */,
-				54F0722D29C0E7900053DC06 /* MainViewController.swift */,
+				54F0722D29C0E7900053DC06 /* HomeViewController.swift */,
+				543AF61E29C1AB5000AFC504 /* TabBarViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -353,8 +362,10 @@
 				54A125E529BD27FD0020C633 /* SignInViewController.swift in Sources */,
 				54B4DC0429BFD09900520C9B /* AppCoordinator.swift in Sources */,
 				54A2162329BF96DA0028B1D4 /* Extension+UITextField.swift in Sources */,
+				543AF61F29C1AB5000AFC504 /* TabBarViewController.swift in Sources */,
+				54FA61D029C210E7001E6FF6 /* Extension+UIImage.swift in Sources */,
 				544CD84729BCCF8300D9B875 /* AppDelegate.swift in Sources */,
-				54F0722E29C0E7900053DC06 /* MainViewController.swift in Sources */,
+				54F0722E29C0E7900053DC06 /* HomeViewController.swift in Sources */,
 				544CD86329BD24B800D9B875 /* Resources.swift in Sources */,
 				544CD86829BD258F00D9B875 /* Extension+UIView.swift in Sources */,
 				54F0723429C0EA240053DC06 /* LoginViewModel.swift in Sources */,
@@ -362,6 +373,7 @@
 				544CD84929BCCF8300D9B875 /* SceneDelegate.swift in Sources */,
 				54F0723229C0E8BF0053DC06 /* User+CoreDataProperties.swift in Sources */,
 				54B11AEB29C0516000A4D16F /* Extension+String.swift in Sources */,
+				543AF62129C1FBDD00AFC504 /* LoginViewModelProtocol.swift in Sources */,
 				54A125EE29BD2DCA0020C633 /* SignInViewModel.swift in Sources */,
 				54B4DC0229BFD06C00520C9B /* Coordinator.swift in Sources */,
 				54F0722C29C0D4E10053DC06 /* DataStorageManager.swift in Sources */,
