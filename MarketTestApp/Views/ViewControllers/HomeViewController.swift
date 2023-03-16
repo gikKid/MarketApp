@@ -21,7 +21,8 @@ class HomeViewController: BaseViewController {
         static let leftSearchTextFieldAnchor = 57.0
         static let searchPlaceholderFont = 14.0
         static let categorySectionLeadingInset = 5.0
-        static let latestCellHeight = 221.0
+        static let latestCellHeight = 149.0
+        static let flashSaleCellHeight = 221.0
         static let latestSectionLeadingInset = 20.0
     }
     
@@ -130,20 +131,19 @@ extension HomeViewController {
             switch section {
             case 0: return self.firstLayoutSection()
             case 1: return self.secondLayoutSection()
+            case 2: return self.thirdLayoutSection()
             default: return nil
             }
         }
     }
     
     private func firstLayoutSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.166),
-     heightDimension: .absolute(100))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.166),heightDimension: .absolute(100))
 
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
      item.contentInsets = .init(top: 8, leading: 0, bottom: 0, trailing: 5)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-     heightDimension: .estimated(500))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .estimated(500))
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
@@ -155,17 +155,32 @@ extension HomeViewController {
     }
     
     private func secondLayoutSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33),
-                                              heightDimension: .absolute(UIConstants.latestCellHeight))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33),heightDimension: .absolute(UIConstants.latestCellHeight))
 
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
      item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .fractionalHeight(1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .fractionalWidth(0.5))
 
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets.leading = UIConstants.latestSectionLeadingInset
+        section.boundarySupplementaryItems = [supplementaryHeaderItem()]
+
+      return section
+    }
+    
+    private func thirdLayoutSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),heightDimension: .absolute(UIConstants.flashSaleCellHeight))
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+     item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .estimated(500))
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -195,15 +210,16 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.viewModel.numberOfItemsInSection(section: section)
+        self.viewModel.numberOfItemsInSection(section: section) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Resources.identefiers.categoryCollectViewCell, for: indexPath) as? CategoryCollectionViewCell {
-                let data = self.viewModel.getContentData(indexPath: indexPath)
-                cell.configureCell(image: UIImage(named: data.image), titleText: data.name)
+                if let data = self.viewModel.getContentData(indexPath: indexPath) {
+                    cell.configureCell(image: UIImage(named: data.image), titleText: data.name)
+                }
                 return cell
             } else {return UICollectionViewCell()}
         case 1:
@@ -211,9 +227,25 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFl
                 cell.setShimmer()
                 switch self.viewModel.state {
                 case .successFetch:
-                    let data = self.viewModel.getContentData(indexPath: indexPath)
-                    self.viewModel.loadImage(data.image) { image in
-                        cell.configureCell(image: image, category: data.category, name: data.name, price: data.price)
+                    if let data = self.viewModel.getContentData(indexPath: indexPath) {
+                        self.viewModel.loadImage(data.image) { image in
+                            cell.configureCell(image: image, category: data.category, name: data.name, price: data.price)
+                        }
+                    }
+                default:
+                    break
+                }
+                return cell
+            } else {return UICollectionViewCell()}
+        case 2:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Resources.identefiers.flashSaleCollectViewCell, for: indexPath) as? FlashSaleCollectionViewCell {
+                cell.setShimmer()
+                switch self.viewModel.state {
+                case .successFetch:
+                    if let data = self.viewModel.getContentData(indexPath: indexPath) {
+                        self.viewModel.loadImage(data.image) { image in
+                            cell.buildCell(image: image, category: data.category, name: data.name, price: data.price, discount: data.discount)
+                        }
                     }
                 default:
                     break
@@ -229,8 +261,9 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFl
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Resources.identefiers.collectionHeader, for: indexPath) as! HeaderSupplementaryView
-            let title = self.viewModel.getSectionTitle(indexPath: indexPath)
-            header.configureHeader(headerText: title)
+            if let title = self.viewModel.getSectionTitle(indexPath: indexPath) {
+                header.configureHeader(headerText: title)
+            }
             return header
         default:
             return UICollectionReusableView()

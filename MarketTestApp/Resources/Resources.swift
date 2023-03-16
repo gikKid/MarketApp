@@ -95,5 +95,7 @@ enum Resources {
         static let furniture = "furniture"
         static let kids = "kids"
         static let plusFilled = "plusFilled"
+        static let plusFilledX2 = "plusFilledX2"
+        static let customHeart = "customHeart"
     }
 }

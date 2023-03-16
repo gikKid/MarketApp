@@ -3,7 +3,7 @@ struct HomeCellItem {
     let price:Double
     let name:String
     let image:String
-    var discount = ""
+    var discount:Int = 0
 }
 
 enum HomeCellSection {

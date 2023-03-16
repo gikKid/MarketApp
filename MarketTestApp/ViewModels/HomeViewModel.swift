@@ -8,16 +8,15 @@ enum HomeViewState {
 final class HomeViewModel:NSObject {
     public var errorCompletion: ((String) -> Void)?
     private let networkManager = NetworkManager()
-    private var contentData:[HomeCellSection] = [.category([
+    private var contentData:[String:HomeCellSection] = [Constants.categoryKey : .category([
         .init(category: "", price: 0, name: Resources.Titles.phones, image: Resources.Images.phones),
         .init(category: "", price: 0, name: Resources.Titles.headphones, image:Resources.Images.headphones),
         .init(category: "", price: 0, name: Resources.Titles.games, image: Resources.Images.games),
         .init(category: "", price: 0, name: Resources.Titles.cars, image: Resources.Images.cars),
         .init(category: "", price: 0, name: Resources.Titles.furniture, image: Resources.Images.furniture),
-        .init(category: "", price: 0, name: Resources.Titles.kids, image: Resources.Images.kids)]),
-                                                 .latest([]),
-                                                 .flashSale([])
+        .init(category: "", price: 0, name: Resources.Titles.kids, image: Resources.Images.kids)])
     ]
+    
     public var stateCompletion: ((HomeViewState) -> Void)?
     public var state:HomeViewState = .none {
         didSet {
@@ -28,15 +27,29 @@ final class HomeViewModel:NSObject {
     
     private enum Constants {
         static let defaultCellsCount = 4
-        static let sectionCount = 2
+        static let categoryKey = "Category"
+        static let latestKey = "Latest"
+        static let flashSaleKey = "flashSale"
     }
     
-    public func getContentData(indexPath:IndexPath) -> HomeCellItem {
-        self.contentData[indexPath.section].items[indexPath.row]
+    public func getContentData(indexPath:IndexPath) -> HomeCellItem? {
+        switch indexPath.section {
+        case 0: return self.contentData[Constants.categoryKey]?.items[indexPath.row]
+        case 1: return self.contentData[Constants.latestKey]?.items[indexPath.row]
+        case 2: return self.contentData[Constants.flashSaleKey]?.items[indexPath.row]
+        default:
+            return nil
+        }
     }
     
-    public func getSectionTitle(indexPath:IndexPath) -> String {
-        self.contentData[indexPath.section].title
+    public func getSectionTitle(indexPath:IndexPath) -> String? {
+        switch indexPath.section {
+        case 0: return self.contentData[Constants.categoryKey]?.title
+        case 1: return self.contentData[Constants.latestKey]?.title
+        case 2: return self.contentData[Constants.flashSaleKey]?.title
+        default:
+            return nil
+        }
     }
     
     public func loadImage(_ urlString:String,withCompletion completion:@escaping (UIImage) -> Void) {
@@ -54,29 +67,28 @@ final class HomeViewModel:NSObject {
     }
     
     public func numberOfSections() -> Int {
-        Constants.sectionCount
-//        self.contentData.count
+        self.contentData.count
     }
     
-    public func numberOfItemsInSection(section:Int) -> Int{
+    public func numberOfItemsInSection(section:Int) -> Int? {
         switch section {
-        case 0: return self.contentData[section].count
+        case 0: return self.contentData[Constants.categoryKey]?.count
         case 1:
             switch self.state {
             case .successFetch:
-                return self.contentData[section].count
+                return self.contentData[Constants.latestKey]?.count
             default:
                 return Constants.defaultCellsCount
             }
         case 2:
             switch self.state {
             case .successFetch:
-                return self.contentData[section].count
+                return self.contentData[Constants.flashSaleKey]?.count
             default:
                 return Constants.defaultCellsCount
             }
         default:
-            return 0
+            return nil
         }
     }
     
@@ -106,45 +118,26 @@ final class HomeViewModel:NSObject {
         }
     }
     
-//    private func test<T>(url:URL,type:T,completion: @escaping (T) -> Void) {
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            self.networkManager.load(url: url) { (result: T?,error:Error? )  in
-//                if let error = error {
-//                    self.errorCompletion?("\(error.localizedDescription)")
-//                    return
-//                }
-//
-//               guard let result = result else {return}
-//               DispatchQueue.main.async {completion(result)}
-//           }
-//       }
-//    }
-    
     public func asyncGroupLoadDataFromServer() {
         let dispatchGroup = DispatchGroup()
         let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-        
-//        dispatchGroup.enter()
-//        test(url: URL(string: Resources.Links.latest)!, type: LatestWrapper.self) { result in
-//
-//        }
    
         dispatchGroup.enter()
         getLatestData { data in
             let latestCellItems = data.map{HomeCellItem(category: $0.category, price: Double($0.price), name: $0.name, image: $0.imageURL)}
             let latestSection = HomeCellSection.latest(latestCellItems)
             dispatchQueue.sync {
-                self.contentData.insert(latestSection, at: 1)
+                self.contentData[Constants.latestKey] = latestSection
                 dispatchGroup.leave()
             }
         }
 
         dispatchGroup.enter()
         getFlashSaleData { data in
-            let flashSaleCellItems = data.map{HomeCellItem(category: $0.category, price: $0.price, name: $0.name, image: $0.imageURL)}
+            let flashSaleCellItems = data.map{HomeCellItem(category: $0.category, price: $0.price, name: $0.name, image: $0.imageURL,discount: $0.discount)}
             let flashSaleSection = HomeCellSection.flashSale(flashSaleCellItems)
             dispatchQueue.sync {
-                self.contentData.insert(flashSaleSection, at: 2)
+                self.contentData[Constants.flashSaleKey] = flashSaleSection
                 dispatchGroup.leave()
             }
         }

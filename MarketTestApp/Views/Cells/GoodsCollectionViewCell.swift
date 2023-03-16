@@ -12,7 +12,7 @@ class GoodsCollectionViewCell: UICollectionViewCell {
     private enum Constants {
         static let priceInitText = "$ "
         static let priceFont = 10.0
-        static let nameFont = 14.0
+        static let nameFont = 13.0
         static let categoryFont = 11.0
         static let imageCornerRadius = 10.0
         static let categoryCornerRadius = 9.0
@@ -56,7 +56,6 @@ extension GoodsCollectionViewCell:CollectionCellProtocol {
         categoryLabel.sizeToFit()
         imageView.addView(categoryLabel)
     
-        
         addButton.setImage(UIImage(named: Resources.Images.plusFilled), for: .normal)
         imageView.addView(addButton)
     }
@@ -70,17 +69,20 @@ extension GoodsCollectionViewCell:CollectionCellProtocol {
             categoryLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor,constant: 10),
             categoryLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor,constant: 20),
             nameLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: 10),
-            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
-            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: priceLabel.topAnchor,constant: -10),
+            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 2),
+            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: priceLabel.topAnchor,constant: 2),
             nameLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: 10),
-            priceLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor,constant: -10),
+            priceLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor,constant: 2),
+            priceLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor,constant: -2),
             priceLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: 10),
             priceLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: 10),
-            addButton.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
+            addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
             addButton.rightAnchor.constraint(equalTo: imageView.rightAnchor,constant: -10)
         ])
     }
-    
+}
+
+@objc extension GoodsCollectionViewCell {
     func configureCell(image:UIImage,category:String,name:String,price:Double) {
         self.imageView.image = image
         self.categoryLabel.text = category
