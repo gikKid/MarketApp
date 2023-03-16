@@ -6,6 +6,9 @@ class HomeViewController: BaseViewController {
     let leftMenuButton = UIButton()
     let topLabel = UILabel()
     let searchTextField = UITextField()
+    lazy var viewModel = {
+       HomeViewModel()
+    }()
     
     private enum UIConstants {
         static let topLabelFont = 24.0
@@ -17,10 +20,26 @@ class HomeViewController: BaseViewController {
         static let searchTextFeidlTopAnchor = 34.0
         static let leftSearchTextFieldAnchor = 57.0
         static let searchPlaceholderFont = 14.0
+        static let categorySectionLeadingInset = 5.0
+        static let latestCellHeight = 221.0
+        static let latestSectionLeadingInset = 20.0
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewModel.asyncGroupLoadDataFromServer()
+        self.viewModel.errorCompletion = { [weak self] errorText in
+            guard let self = self else {return}
+            self.present(self.createInfoAlert(message: errorText, title: Resources.Titles.error),animated: true)
+        }
+        self.viewModel.stateCompletion = { [weak self] state in
+            switch state {
+            case .successFetch:
+                self?.reloadCollectionView()
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -72,6 +91,17 @@ extension HomeViewController {
         magnifierButton.configuration = magnifierButtonConfiguration
         
         searchTextField.rightView = magnifierButton
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.bounces = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.collectionViewLayout = self.createCompositionLayout()
+        collectionView.register(GoodsCollectionViewCell.self, forCellWithReuseIdentifier: Resources.identefiers.goodsCollectViewCell)
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: Resources.identefiers.categoryCollectViewCell)
+        collectionView.register(FlashSaleCollectionViewCell.self, forCellWithReuseIdentifier: Resources.identefiers.flashSaleCollectViewCell)
+        collectionView.register(HeaderSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Resources.identefiers.collectionHeader)
     }
     
     override func layoutViews() {
@@ -95,5 +125,115 @@ extension HomeViewController {
 
 //MARK: - Private methods
 extension HomeViewController {
+    private func createCompositionLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (section,_) -> NSCollectionLayoutSection? in
+            switch section {
+            case 0: return self.firstLayoutSection()
+            case 1: return self.secondLayoutSection()
+            default: return nil
+            }
+        }
+    }
+    
+    private func firstLayoutSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.166),
+     heightDimension: .absolute(100))
 
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+     item.contentInsets = .init(top: 8, leading: 0, bottom: 0, trailing: 5)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+     heightDimension: .estimated(500))
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets.leading = UIConstants.categorySectionLeadingInset
+
+      return section
+    }
+    
+    private func secondLayoutSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33),
+                                              heightDimension: .absolute(UIConstants.latestCellHeight))
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+     item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalHeight(1))
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets.leading = UIConstants.latestSectionLeadingInset
+        section.boundarySupplementaryItems = [supplementaryHeaderItem()]
+
+      return section
+    }
+    
+    private func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+        NSCollectionLayoutBoundarySupplementaryItem.init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(30)),elementKind: UICollectionView.elementKindSectionHeader,alignment: .top)
+    }
+}
+
+
+//MARK: - Collection methods
+extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        self.viewModel.numberOfSections()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.viewModel.numberOfItemsInSection(section: section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.section {
+        case 0:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Resources.identefiers.categoryCollectViewCell, for: indexPath) as? CategoryCollectionViewCell {
+                let data = self.viewModel.getContentData(indexPath: indexPath)
+                cell.configureCell(image: UIImage(named: data.image), titleText: data.name)
+                return cell
+            } else {return UICollectionViewCell()}
+        case 1:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Resources.identefiers.goodsCollectViewCell, for: indexPath) as? GoodsCollectionViewCell {
+                cell.setShimmer()
+                switch self.viewModel.state {
+                case .successFetch:
+                    let data = self.viewModel.getContentData(indexPath: indexPath)
+                    self.viewModel.loadImage(data.image) { image in
+                        cell.configureCell(image: image, category: data.category, name: data.name, price: data.price)
+                    }
+                default:
+                    break
+                }
+                return cell
+            } else {return UICollectionViewCell()}
+        default:
+            return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Resources.identefiers.collectionHeader, for: indexPath) as! HeaderSupplementaryView
+            let title = self.viewModel.getSectionTitle(indexPath: indexPath)
+            header.configureHeader(headerText: title)
+            return header
+        default:
+            return UICollectionReusableView()
+        }
+    }
 }

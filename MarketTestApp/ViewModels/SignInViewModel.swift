@@ -11,7 +11,7 @@ enum SigninState {
     case successRegister,none
 }
 
-final class SignInViewModel:NSObject,LoginViewModelProtocol {
+final class SignInViewModel:NSObject {
     
     var errorCompletion: ((String) -> Void)?
     var stateCompletion: ((SigninState) -> Void)?
@@ -79,3 +79,5 @@ final class SignInViewModel:NSObject,LoginViewModelProtocol {
         return isUnique
     }
 }
+
+extension SignInViewModel:LoginViewModelProtocol {}
