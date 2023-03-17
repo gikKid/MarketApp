@@ -5,6 +5,7 @@ class ProfileViewController: BaseViewController {
     private let topLabel = UILabel()
     private let tableView = UITableView()
     private let tableHeaderView = TableHeaderView()
+    let avatarPhotoPicker = UIImagePickerController()
     lazy var viewModel = {
        ProfileViewModel()
     }()
@@ -17,6 +18,14 @@ class ProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewModel.stateCompletion = { [weak self] state in
+            switch state {
+            case .logout:
+                self?.appCoordinator.showSigninVC()
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -36,6 +45,9 @@ extension ProfileViewController {
         topLabel.text = Resources.Titles.profile
         topLabel.font = .boldSystemFont(ofSize: UIConstants.topLabelFont)
         
+        tableHeaderView.delegate = self
+        tableHeaderView.model = .init(name: "Satria Adhi Pradana", image: UIImage(named: Resources.Images.profileCustom))
+        
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -43,6 +55,9 @@ extension ProfileViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: Resources.identefiers.profileTableCell)
+        
+        avatarPhotoPicker.allowsEditing = true
+        avatarPhotoPicker.delegate = self
     }
     
     
@@ -60,7 +75,18 @@ extension ProfileViewController {
 
 //MARK: - Private methods
 extension ProfileViewController {
-    
+    private func showPickerAlert() {
+        let pickerAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        pickerAlert.addAction(UIAlertAction(title: Resources.Titles.takePhoto, style: .default,handler: { _ in
+            self.avatarPhotoPicker.sourceType = .camera // in device simulator it will be crashed !!!
+            self.present(self.avatarPhotoPicker, animated: true)
+        }))
+        pickerAlert.addAction(UIAlertAction(title: Resources.Titles.chooseFromPhotoGallery, style: .default,handler: { _ in
+            self.present(self.avatarPhotoPicker, animated: true)
+        }))
+        pickerAlert.addAction(UIAlertAction(title: Resources.Titles.cancel, style: .cancel))
+        self.present(pickerAlert, animated: true)
+    }
 }
 
 
@@ -85,10 +111,12 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.viewModel.didSelectRowAt(tableView: tableView, indexPath: indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = TableHeaderView()
-        headerView.model = .init(name: "Satria Adhi Pradana", image: UIImage(named: Resources.Images.profileCustom))
-        return headerView
+        tableHeaderView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -99,4 +127,28 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
         UIConstants.cellHeight
     }
     
+}
+
+
+//MARK: - TableHeaderViewDelegate
+extension ProfileViewController: TableHeaderViewProtocol {
+    func userTapChangePhotoButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Change avatar", style: .default,handler: { [weak self] _ in
+            guard let self = self else {return}
+            self.showPickerAlert()
+        }))
+        alert.addAction(UIAlertAction(title: Resources.Titles.cancel, style: .cancel))
+        self.present(alert, animated: true)
+    }
+}
+
+
+//MARK: - ImagePickerDelegate
+extension ProfileViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else {return}
+        tableHeaderView.changeImage(image)
+        avatarPhotoPicker.dismiss(animated: true)
+    }
 }

@@ -1,7 +1,18 @@
 import UIKit
 
+enum ProfileViewState {
+    case logout,none
+}
+
 final class ProfileViewModel:NSObject {
 
+    public var stateCompletion: ((ProfileViewState) -> Void)?
+    private var state:ProfileViewState = .none {
+        didSet {
+            stateCompletion?(state)
+        }
+    }
+    
     private let cellData:[ProfileCellOption] = [
         ProfileCellOption(title: Resources.Titles.tradeStore, image: UIImage(named: Resources.Images.creditcard), type: ProfileCellType.rightChevron),
         ProfileCellOption(title: Resources.Titles.paymentMethod, image: UIImage(named: Resources.Images.creditcard),type: ProfileCellType.rightChevron),
@@ -22,5 +33,16 @@ final class ProfileViewModel:NSObject {
     
     public func getCellData(_ indexPath:IndexPath) -> ProfileCellOption {
         self.cellData[indexPath.row]
+    }
+    
+    public func didSelectRowAt(tableView:UITableView, indexPath:IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? ProfileTableViewCell {
+            switch cell.titleLabel.text {
+            case Resources.Titles.logout:
+                self.state = .logout
+            default:
+                break
+            }
+        }
     }
 }

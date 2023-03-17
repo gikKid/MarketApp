@@ -85,6 +85,9 @@ enum Resources {
         static let restorePurchase = "Restore Purchase"
         static let help = "Help"
         static let logout = "Log out"
+        static let cancel = "Cancel"
+        static let takePhoto = "Take photo"
+        static let chooseFromPhotoGallery = "Choose from photo gallery"
     }
     
     enum Images {
