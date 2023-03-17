@@ -5,6 +5,8 @@ class HomeViewController: BaseViewController {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     let leftMenuButton = UIButton()
     let topLabel = UILabel()
+    let profileImageView = UIImageView()
+    let locationButton = UIButton()
     let searchTextField = UITextField()
     lazy var viewModel = {
        HomeViewModel()
@@ -17,13 +19,16 @@ class HomeViewController: BaseViewController {
         static let leftMenuButtonAnchor = 10.0
         static let magnifierImageConfigutation = UIImage.SymbolConfiguration(scale: .default)
         static let magnifierImage = UIImage(systemName: Resources.Images.magnifier,withConfiguration: UIConstants.magnifierImageConfigutation)
-        static let searchTextFeidlTopAnchor = 34.0
+        static let searchTextFeidlTopAnchor = 10.0
         static let leftSearchTextFieldAnchor = 57.0
         static let searchPlaceholderFont = 14.0
         static let categorySectionLeadingInset = 5.0
         static let latestCellHeight = 149.0
         static let flashSaleCellHeight = 221.0
         static let latestSectionLeadingInset = 20.0
+        static let profileImageWidth = 32.0
+        static let profileImageRightAnchor = 47.0
+        static let profileImageeLeftAnchor = 56.0
     }
     
     override func viewDidLoad() {
@@ -49,6 +54,8 @@ class HomeViewController: BaseViewController {
 extension HomeViewController {
     override func addViews() {
         self.view.addView(topLabel)
+        self.view.addView(profileImageView)
+        self.view.addView(locationButton)
         self.view.addView(leftMenuButton)
         self.view.addView(searchTextField)
         self.view.addView(collectionView)
@@ -66,6 +73,21 @@ extension HomeViewController {
         ])
         mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: Resources.Colors.mainColor)!, range: NSRange(location: 8, length: 5))
         topLabel.attributedText = mutableString
+        
+        profileImageView.layer.masksToBounds = false
+        profileImageView.layer.borderWidth = 1.0
+        profileImageView.layer.borderColor = UIColor.darkGray.cgColor
+        profileImageView.image = UIImage(named: Resources.Images.profileCustom)
+        profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = UIConstants.profileImageWidth / 2
+        
+        locationButton.setTitle(Resources.Titles.location, for: .normal)
+        locationButton.setTitleColor(.gray, for: .normal)
+        locationButton.setImage(UIImage(systemName: Resources.Images.chevronDown,withConfiguration: UIImage.SymbolConfiguration(scale: .small)), for: .normal)
+        locationButton.tintColor = .black
+        locationButton.semanticContentAttribute = .forceRightToLeft
+        locationButton.titleLabel?.font = .systemFont(ofSize: 13.0)
         
         let centeredParagrapghStyle = NSMutableParagraphStyle()
         centeredParagrapghStyle.alignment = .center
@@ -111,8 +133,15 @@ extension HomeViewController {
             topLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIConstants.topLabelAnchor),
             leftMenuButton.centerYAnchor.constraint(equalTo: topLabel.centerYAnchor),
             leftMenuButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: UIConstants.leftMenuButtonAnchor),
+            profileImageView.centerYAnchor.constraint(equalTo: topLabel.centerYAnchor),
+            profileImageView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -UIConstants.profileImageRightAnchor),
+            profileImageView.leftAnchor.constraint(lessThanOrEqualTo: topLabel.rightAnchor, constant: UIConstants.profileImageeLeftAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: UIConstants.profileImageWidth),
+            profileImageView.heightAnchor.constraint(equalTo: profileImageView.widthAnchor),
+            locationButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            locationButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
             searchTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            searchTextField.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: UIConstants.searchTextFeidlTopAnchor),
+            searchTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: UIConstants.searchTextFeidlTopAnchor),
             searchTextField.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: UIConstants.leftSearchTextFieldAnchor),
             searchTextField.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -UIConstants.leftSearchTextFieldAnchor),
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor,constant: 10),

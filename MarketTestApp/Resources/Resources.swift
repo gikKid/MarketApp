@@ -97,5 +97,7 @@ enum Resources {
         static let plusFilled = "plusFilled"
         static let plusFilledX2 = "plusFilledX2"
         static let customHeart = "customHeart"
+        static let profileCustom = "profileCustom"
+        static let chevronDown = "chevron.down"
     }
 }
