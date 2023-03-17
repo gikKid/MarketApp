@@ -36,4 +36,8 @@ final class AppCoordinator:Coordinator {
     func createHomeVC() -> HomeViewController{
         HomeViewController(appCoordinator: self)
     }
+    
+    func createProfileVC() -> ProfileViewController {
+        ProfileViewController(appCoordinator: self)
+    }
 }

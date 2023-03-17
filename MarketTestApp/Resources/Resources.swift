@@ -7,6 +7,7 @@ enum Resources {
         static let categoryCollectViewCell = "categoryCell"
         static let flashSaleCollectViewCell = "flashSaleCell"
         static let collectionHeader = "collectHeader"
+        static let profileTableCell = "profileCell"
     }
     
     enum UserDefault {
@@ -74,6 +75,16 @@ enum Resources {
         static let kids = "Kids"
         static let latestSection = "Latest"
         static let flashSaleSection = "Flash sale"
+        static let profile = "Profile"
+        static let uploadItem = "Upload item"
+        static let changePhoto = "Change photo"
+        static let tradeStore = "Trade store"
+        static let paymentMethod = "Payment method"
+        static let balance = "Balance"
+        static let tradeHistory = "Trade history"
+        static let restorePurchase = "Restore Purchase"
+        static let help = "Help"
+        static let logout = "Log out"
     }
     
     enum Images {
@@ -99,5 +110,12 @@ enum Resources {
         static let customHeart = "customHeart"
         static let profileCustom = "profileCustom"
         static let chevronDown = "chevron.down"
+        static let share = "square.and.arrow.up"
+        static let creditcard = "creditcard"
+        static let restore = "restore"
+        static let questionCircle = "questionCircle"
+        static let logout = "logout"
+        static let chevronRight = "chevron.right"
+        static let shareCustom = "shareCustom"
     }
 }

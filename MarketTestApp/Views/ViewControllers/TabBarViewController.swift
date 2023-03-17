@@ -50,7 +50,7 @@ extension TabBarViewController {
     
     private func configureSelectedItem() {
         let size = CGSize(width: tabBar.frame.width / CGFloat(tabBar.items!.count) , height: tabBar.frame.height)
-        let dotImage = UIImage().createSelectionIndicator(color: UIColor(named: Resources.Colors.selectedTabBar)!.withAlphaComponent(0.1), size: size, lineHeight: UIConstants.circleSelectedItemHeight)
+        let dotImage = UIImage().createSelectionIndicator(color: UIColor(named: Resources.Colors.selectedTabBar)!.withAlphaComponent(0.1), size: size, lineHeight: tabBar.frame.height < 50 ? tabBar.frame.height / 1.4 : UIConstants.circleSelectedItemHeight) // 49 is tab bar height for iphone se 3 generation
         tabBar.selectionIndicatorImage = dotImage
     }
     
@@ -72,7 +72,7 @@ extension TabBarViewController {
         let commentVC = UIViewController()
         commentVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: Resources.Images.commentLeft,withConfiguration: UIConstants.UIImageTabBarConfigur), tag: 3)
         
-        let profileVC = UIViewController()
+        let profileVC = appCoordinator.createProfileVC()
         profileVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: Resources.Images.person,withConfiguration: UIConstants.UIImageTabBarConfigur), tag: 4)
         
         self.viewControllers = [homeVC,favoriteVC,cartVC,commentVC,profileVC]

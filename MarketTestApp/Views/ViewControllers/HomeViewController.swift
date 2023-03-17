@@ -80,7 +80,7 @@ extension HomeViewController {
         profileImageView.image = UIImage(named: Resources.Images.profileCustom)
         profileImageView.clipsToBounds = true
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.layer.cornerRadius = UIConstants.profileImageWidth / 2
+        profileImageView.layer.cornerRadius =   UIConstants.profileImageWidth / 2
         
         locationButton.setTitle(Resources.Titles.location, for: .normal)
         locationButton.setTitleColor(.gray, for: .normal)
