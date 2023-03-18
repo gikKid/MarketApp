@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 enum HomeViewState {
-    case successFetch,none
+    case successFetch,reloadSearchTableView,none
 }
 
 final class HomeViewModel:NSObject {
@@ -16,7 +16,9 @@ final class HomeViewModel:NSObject {
         .init(category: "", price: 0, name: Resources.Titles.furniture, image: Resources.Images.furniture),
         .init(category: "", price: 0, name: Resources.Titles.kids, image: Resources.Images.kids)])
     ]
-    
+    private var APIWords:[String]?
+    private var resultSearch:[String] = []
+    private var searchString:String = ""
     public var stateCompletion: ((HomeViewState) -> Void)?
     public var state:HomeViewState = .none {
         didSet {
@@ -24,12 +26,41 @@ final class HomeViewModel:NSObject {
         }
     }
     
-    
     private enum Constants {
         static let defaultCellsCount = 4
         static let categoryKey = "Category"
         static let latestKey = "Latest"
         static let flashSaleKey = "flashSale"
+        static let sectionCountSearchTableView = 1
+    }
+    
+    public func fetchAPIWords() {
+        guard self.APIWords == nil else {return}
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.networkManager.load(url: URL(string: Resources.Links.words)!) { (wordsWrapper: WordsWrapper?, error:Error?) in
+                if let error = error {
+                    self.errorCompletion?("\(error)")
+                    return
+                }
+                guard let wordsWrapper = wordsWrapper else {return}
+                self.APIWords = wordsWrapper.words
+            }
+        }
+    }
+    
+    public func searchText(_ character:String) {
+        if character == "" {
+            searchString.removeLast()
+        } else {
+            searchString.append(character)
+        }
+        guard let apiWords = self.APIWords else {return}
+        self.resultSearch = apiWords.filter{$0.lowercased().contains(searchString.lowercased())}
+        self.state = .reloadSearchTableView
+    }
+    
+    public func getWord(_ indexPath: IndexPath) -> String {
+        self.resultSearch[indexPath.row]
     }
     
     public func getContentData(indexPath:IndexPath) -> HomeCellItem? {
@@ -66,6 +97,14 @@ final class HomeViewModel:NSObject {
         }
     }
     
+    public func numberOfSectionsInSearchTableView() -> Int {
+        Constants.sectionCountSearchTableView
+    }
+    
+    public func numberOfRowsInSectionInSearchTableView() -> Int {
+        self.resultSearch.count
+    }
+    
     public func numberOfSections() -> Int {
         self.contentData.count
     }
@@ -93,8 +132,9 @@ final class HomeViewModel:NSObject {
     }
     
     private func getLatestData(completion: @escaping ([Latest]) -> Void) {
+        guard let url = URL(string: Resources.Links.latest) else {return}
         DispatchQueue.global(qos: .userInitiated).async {
-            self.networkManager.load(url: URL(string: Resources.Links.latest)!) { (result: LatestWrapper? ,error:Error?)   in
+            self.networkManager.load(url: url) { (result: LatestWrapper? ,error:Error?)   in
                 if let error = error {
                     self.errorCompletion?("\(error.localizedDescription)")
                     return
@@ -106,8 +146,9 @@ final class HomeViewModel:NSObject {
     }
 
     private func getFlashSaleData(completion: @escaping ([FlashSale]) -> Void) {
+        guard let url = URL(string: Resources.Links.flashSale) else {return}
          DispatchQueue.global(qos: .userInitiated).async {
-             self.networkManager.load(url: URL(string: Resources.Links.flashSale)!) { (result: FlashSaleWrapper?,error:Error? )  in
+             self.networkManager.load(url: url) { (result: FlashSaleWrapper?,error:Error? )  in
                  if let error = error {
                      self.errorCompletion?("\(error.localizedDescription)")
                      return

@@ -59,6 +59,7 @@ class SignInViewController: BaseViewController {
         self.viewModel.stateCompletion = { state in
             switch state {
             case .successRegister:
+                self.hideSpinnerView()
                 super.appCoordinator.showTabBarVC()
             case .none:
                 break
@@ -221,6 +222,7 @@ extension SignInViewController {
     }
     
     @objc private func signInButtonTapped(_ sender:UIButton) {
+        self.createSpinnerView()
         self.viewModel.userTapSigninButton()
     }
 }

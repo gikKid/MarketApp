@@ -8,6 +8,7 @@ class HomeViewController: BaseViewController {
     let profileImageView = UIImageView()
     let locationButton = UIButton()
     let searchTextField = UITextField()
+    let resultSearchTableView = UITableView()
     lazy var viewModel = {
        HomeViewModel()
     }()
@@ -29,6 +30,8 @@ class HomeViewController: BaseViewController {
         static let profileImageWidth = 32.0
         static let profileImageRightAnchor = 47.0
         static let profileImageeLeftAnchor = 56.0
+        static let searchTextFieldHeight = 30.0
+        static let resultSerachTableViewHeight = 150.0
     }
     
     override func viewDidLoad() {
@@ -42,6 +45,8 @@ class HomeViewController: BaseViewController {
             switch state {
             case .successFetch:
                 self?.reloadCollectionView()
+            case .reloadSearchTableView:
+                self?.reloadResultSearchTableView()
             default:
                 break
             }
@@ -96,13 +101,13 @@ extension HomeViewController {
         searchTextField.layer.masksToBounds = true
         searchTextField.layer.cornerRadius = Resources.CornerRadius.textFieldSignIn
         searchTextField.font = .systemFont(ofSize: UIConstants.searchPlaceholderFont)
-        searchTextField.borderStyle = .roundedRect
         searchTextField.autocorrectionType = .no
         searchTextField.clearButtonMode = .whileEditing
         searchTextField.backgroundColor = .systemGray6.withAlphaComponent(0.35)
         searchTextField.contentVerticalAlignment = .center
         searchTextField.rightViewMode = .always
         searchTextField.returnKeyType = .done
+        searchTextField.delegate = self
         
         let magnifierButton = UIButton()
         
@@ -125,6 +130,11 @@ extension HomeViewController {
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: Resources.identefiers.categoryCollectViewCell)
         collectionView.register(FlashSaleCollectionViewCell.self, forCellWithReuseIdentifier: Resources.identefiers.flashSaleCollectViewCell)
         collectionView.register(HeaderSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Resources.identefiers.collectionHeader)
+        
+        resultSearchTableView.delegate = self
+        resultSearchTableView.dataSource = self
+        resultSearchTableView.register(UITableViewCell.self, forCellReuseIdentifier: Resources.identefiers.searchResultTableCell)
+        resultSearchTableView.backgroundColor = .clear
     }
     
     override func layoutViews() {
@@ -144,6 +154,7 @@ extension HomeViewController {
             searchTextField.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: UIConstants.searchTextFeidlTopAnchor),
             searchTextField.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: UIConstants.leftSearchTextFieldAnchor),
             searchTextField.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -UIConstants.leftSearchTextFieldAnchor),
+            searchTextField.heightAnchor.constraint(equalToConstant: UIConstants.searchTextFieldHeight),
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor,constant: 10),
             collectionView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             collectionView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
@@ -228,6 +239,22 @@ extension HomeViewController {
     private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
         NSCollectionLayoutBoundarySupplementaryItem.init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(30)),elementKind: UICollectionView.elementKindSectionHeader,alignment: .top)
     }
+    
+    private func setResultSearchTableView() {
+        self.view.addView(resultSearchTableView)
+        NSLayoutConstraint.activate([
+            resultSearchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
+            resultSearchTableView.rightAnchor.constraint(equalTo: searchTextField.rightAnchor),
+            resultSearchTableView.leftAnchor.constraint(equalTo: searchTextField.leftAnchor),
+            resultSearchTableView.heightAnchor.constraint(equalToConstant: UIConstants.resultSerachTableViewHeight)
+        ])
+    }
+    
+    private func reloadResultSearchTableView() {
+        DispatchQueue.main.async {
+            self.resultSearchTableView.reloadData()
+        }
+    }
 }
 
 
@@ -297,5 +324,45 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFl
         default:
             return UICollectionReusableView()
         }
+    }
+}
+
+
+//MARK: - TextFieldDelegate
+extension HomeViewController:UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.setResultSearchTableView()
+        self.viewModel.fetchAPIWords()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.resignFirstResponder()
+        resultSearchTableView.removeFromSuperview()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        self.viewModel.searchText(string)
+        return true
+    }
+}
+
+
+//MARK: - TableViewDelegate
+extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        self.viewModel.numberOfSectionsInSearchTableView()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self.viewModel.numberOfRowsInSectionInSearchTableView()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Resources.identefiers.searchResultTableCell, for: indexPath)
+        cell.textLabel?.text = self.viewModel.getWord(indexPath)
+        return cell
     }
 }

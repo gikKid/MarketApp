@@ -8,6 +8,7 @@ enum Resources {
         static let flashSaleCollectViewCell = "flashSaleCell"
         static let collectionHeader = "collectHeader"
         static let profileTableCell = "profileCell"
+        static let searchResultTableCell = "searchResultCell"
     }
     
     enum UserDefault {

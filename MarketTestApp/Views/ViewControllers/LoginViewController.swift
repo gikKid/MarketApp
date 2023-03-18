@@ -44,6 +44,7 @@ class LoginViewController: BaseViewController {
         self.viewModel.stateCompletion = { state in
             switch state {
             case .successLogin:
+                self.hideSpinnerView()
                 super.appCoordinator.showTabBarVC()
                 self.viewModel.saveEntered()
             case .failLogin(let error):
@@ -149,6 +150,7 @@ extension LoginViewController {
 //MARK: - Button method
 extension LoginViewController {
     @objc private func loginButtonTapped(_ sender:UIButton) {
+        self.createSpinnerView()
         self.viewModel.userTapLogin()
     }
     
