@@ -16,6 +16,9 @@ class GoodsCollectionViewCell: UICollectionViewCell {
         static let categoryFont = 11.0
         static let imageCornerRadius = 10.0
         static let categoryCornerRadius = 9.0
+        static let leftRightAnchor = 10.0
+        static let topBottomAnchor = 2.0
+        static let categoryLabelYAnchor = 20.0
     }
     
     override init(frame: CGRect) {
@@ -66,18 +69,18 @@ extension GoodsCollectionViewCell:CollectionCellProtocol {
             imageView.rightAnchor.constraint(equalTo: self.rightAnchor),
             imageView.leftAnchor.constraint(equalTo: self.leftAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            categoryLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor,constant: 10),
-            categoryLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor,constant: 20),
-            nameLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: 10),
-            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 2),
-            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: priceLabel.topAnchor,constant: 2),
-            nameLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: 10),
-            priceLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor,constant: 2),
-            priceLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor,constant: -2),
-            priceLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: 10),
-            priceLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: 10),
-            addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
-            addButton.rightAnchor.constraint(equalTo: imageView.rightAnchor,constant: -10)
+            categoryLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor,constant: Constants.leftRightAnchor),
+            categoryLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor,constant: Constants.categoryLabelYAnchor),
+            nameLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: Constants.leftRightAnchor),
+            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: Constants.topBottomAnchor),
+            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: priceLabel.topAnchor,constant: Constants.topBottomAnchor),
+            nameLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: Constants.leftRightAnchor),
+            priceLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor,constant: Constants.topBottomAnchor),
+            priceLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor,constant: -Constants.topBottomAnchor),
+            priceLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: Constants.leftRightAnchor),
+            priceLabel.rightAnchor.constraint(equalTo: self.centerXAnchor,constant: Constants.leftRightAnchor),
+            addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -Constants.leftRightAnchor),
+            addButton.rightAnchor.constraint(equalTo: imageView.rightAnchor,constant: -Constants.leftRightAnchor)
         ])
     }
 }
@@ -100,11 +103,7 @@ extension GoodsCollectionViewCell:SkeletonLoadable {
         
         let animationGroup = self.makeAnimationGroup()
         animationGroup.beginTime = 0.0
-        gradient.add(animationGroup, forKey: "backgroundColor")
+        gradient.add(animationGroup, forKey: Resources.Keys.gradientBackground)
         gradient.frame = self.bounds
-    }
-    
-    func removeShimmer() {
-        self.gradient.removeFromSuperlayer()
     }
 }

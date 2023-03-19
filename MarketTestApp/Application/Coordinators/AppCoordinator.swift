@@ -9,13 +9,19 @@ final class AppCoordinator:Coordinator {
 
     func start() {
         let defaults = UserDefaults.standard
-        let isEntered = defaults.bool(forKey: Resources.UserDefault.isEnteredKey)
+        let isEntered = defaults.bool(forKey: Resources.Keys.isEntered)
         switch isEntered {
         case true:
             self.showTabBarVC()
         case false:
             self.showSigninVC()
         }
+    }
+    
+    func showDetailGoodsVC() {
+        let detailGoodsVC = DetailGoodsViewController(appCoordinator: self)
+        detailGoodsVC.hidesBottomBarWhenPushed = false
+        navigationController.pushViewController(detailGoodsVC, animated: true)
     }
     
     func showSigninVC() {

@@ -68,7 +68,6 @@ extension HomeViewController {
     
     override func configure() {
         super.configure()
-        navigationController?.navigationBar.isHidden = true
         
         leftMenuButton.setImage(UIImage(systemName: Resources.Images.burgerMenu,withConfiguration:UIConstants.leftMenuImageConfigur ), for: .normal)
         leftMenuButton.tintColor = .black
@@ -311,6 +310,10 @@ extension HomeViewController:UICollectionViewDelegate,UICollectionViewDelegateFl
         default:
             return UICollectionViewCell()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        appCoordinator.showDetailGoodsVC()
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

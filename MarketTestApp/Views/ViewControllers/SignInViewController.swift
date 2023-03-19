@@ -78,7 +78,6 @@ extension SignInViewController {
     
     override func configure() {
         super.configure()
-        self.navigationController?.navigationBar.isHidden = true
         
         scrollView.showsVerticalScrollIndicator = false
         

@@ -7,6 +7,6 @@ protocol LoginViewModelProtocol {
 extension LoginViewModelProtocol {
     func saveEntered() {
         let defaults = UserDefaults.standard
-        defaults.set(true, forKey: Resources.UserDefault.isEnteredKey)
+        defaults.set(true, forKey: Resources.Keys.isEntered)
     }
 }

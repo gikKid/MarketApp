@@ -9,10 +9,15 @@ enum Resources {
         static let collectionHeader = "collectHeader"
         static let profileTableCell = "profileCell"
         static let searchResultTableCell = "searchResultCell"
+        static let imageCell = "imageCell"
+        static let detailGoodsCell = "detailGoodsCell"
+        static let detailGoodsCollectHeaderView = "detailGoodsHeaderView"
+        static let colorDetailGoodsCell = "colorDetailGoodsCell"
     }
     
-    enum UserDefault {
-        static let isEnteredKey = "isEntered"
+    enum Keys {
+        static let isEntered = "isEntered"
+        static let gradientBackground = "backgroundColor"
     }
     
     enum Links {
@@ -47,6 +52,7 @@ enum Resources {
         static let selectedTabBar = "tabbarSelectedColor"
         static let gradientDarkGrey = UIColor(red: 239/255.0, green: 241/255.0, blue: 241/255.0, alpha: 1)
         static let gradientLightGrey = UIColor(red: 201/255.0, green: 201/255.0, blue: 201/255.0, alpha: 1)
+        static let bottomCartBackColor = "bottomCartBackColor"
     }
     
     enum Titles {
@@ -89,6 +95,9 @@ enum Resources {
         static let cancel = "Cancel"
         static let takePhoto = "Take photo"
         static let chooseFromPhotoGallery = "Choose from photo gallery"
+        static let quantity = "Quantity"
+        static let addToCard = "ADD TO CART"
+        static let color = "Color"
     }
     
     enum Images {
@@ -121,5 +130,9 @@ enum Resources {
         static let logout = "logout"
         static let chevronRight = "chevron.right"
         static let shareCustom = "shareCustom"
+        static let chevronLeft = "chevron.left"
+        static let minus = "minus"
+        static let plus = "plus"
+        static let star = "star"
     }
 }

@@ -13,6 +13,7 @@ class ProfileTableViewCell: UITableViewCell {
         static let iconLeftAnchor = 35.0
         static let rightImageAnchor = 40.0
         static let rightButtonFont = 17.0
+        static let titleLabelTopAnchor = 10.0
     }
     
     override func awakeFromNib() {
@@ -22,7 +23,7 @@ class ProfileTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupView()
-        self.setConstaints()
+        self.setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -77,7 +78,7 @@ extension ProfileTableViewCell {
         iconContainerView.backgroundColor = .systemGray6.withAlphaComponent(0.8)
     }
     
-    private func setConstaints() {
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             iconContainerView.widthAnchor.constraint(equalToConstant: contentView.frame.size.height - 7),
             iconContainerView.heightAnchor.constraint(equalTo: iconContainerView.widthAnchor),
@@ -90,7 +91,7 @@ extension ProfileTableViewCell {
             titleLabel.widthAnchor.constraint(equalToConstant: contentView.frame.size.width - UIConstants.labelXOffset - iconContainerView.frame.size.width),
             titleLabel.heightAnchor.constraint(equalToConstant: contentView.frame.size.height),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: iconContainerView.rightAnchor,constant: 10),
+            titleLabel.leftAnchor.constraint(equalTo: iconContainerView.rightAnchor,constant: UIConstants.titleLabelTopAnchor),
             rightButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             rightButton.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -UIConstants.rightImageAnchor)
         ])

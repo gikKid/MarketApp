@@ -7,6 +7,12 @@ protocol SkeletonLoadable {
 }
 
 extension SkeletonLoadable {
+    func removeShimmer() {
+        gradient.removeFromSuperlayer()
+    }
+}
+
+extension SkeletonLoadable {
     func makeAnimationGroup(previousGroup: CAAnimationGroup? = nil) -> CAAnimationGroup {
         let animDuration: CFTimeInterval = 1.5
         

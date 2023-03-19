@@ -27,6 +27,13 @@
 		544CD86329BD24B800D9B875 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544CD86229BD24B800D9B875 /* Resources.swift */; };
 		544CD86529BD255500D9B875 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544CD86429BD255500D9B875 /* SpinnerViewController.swift */; };
 		544CD86829BD258F00D9B875 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544CD86729BD258F00D9B875 /* Extension+UIView.swift */; };
+		547803F529C5BF8A0072805B /* DetailGoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803F429C5BF8A0072805B /* DetailGoodsViewController.swift */; };
+		547803F729C607770072805B /* DetailGoodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803F629C607770072805B /* DetailGoodsViewModel.swift */; };
+		547803F929C632390072805B /* DetailGoodsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803F829C632390072805B /* DetailGoodsCollectionViewCell.swift */; };
+		547803FB29C637B80072805B /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803FA29C637B80072805B /* ImageCollectionViewCell.swift */; };
+		547803FD29C651690072805B /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803FC29C651690072805B /* ColorCollectionViewCell.swift */; };
+		547803FF29C6551B0072805B /* DetailGoodsSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547803FE29C6551B0072805B /* DetailGoodsSupplementaryView.swift */; };
+		5478040129C657B30072805B /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5478040029C657B30072805B /* Extension+UIColor.swift */; };
 		54A125E529BD27FD0020C633 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A125E429BD27FD0020C633 /* SignInViewController.swift */; };
 		54A125EE29BD2DCA0020C633 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A125ED29BD2DCA0020C633 /* SignInViewModel.swift */; };
 		54A2162129BF96C60028B1D4 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */; };
@@ -77,6 +84,13 @@
 		544CD86229BD24B800D9B875 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		544CD86429BD255500D9B875 /* SpinnerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		544CD86729BD258F00D9B875 /* Extension+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
+		547803F429C5BF8A0072805B /* DetailGoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGoodsViewController.swift; sourceTree = "<group>"; };
+		547803F629C607770072805B /* DetailGoodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGoodsViewModel.swift; sourceTree = "<group>"; };
+		547803F829C632390072805B /* DetailGoodsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGoodsCollectionViewCell.swift; sourceTree = "<group>"; };
+		547803FA29C637B80072805B /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		547803FC29C651690072805B /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		547803FE29C6551B0072805B /* DetailGoodsSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGoodsSupplementaryView.swift; sourceTree = "<group>"; };
+		5478040029C657B30072805B /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		54A125E429BD27FD0020C633 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		54A125ED29BD2DCA0020C633 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		54A2162029BF96C60028B1D4 /* Extension+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
@@ -123,6 +137,7 @@
 			children = (
 				542AEFA829C3AACE00F0291D /* HeaderSupplementaryView.swift */,
 				5427D7F329C4750E0067E3C1 /* TableHeaderView.swift */,
+				547803FE29C6551B0072805B /* DetailGoodsSupplementaryView.swift */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -192,6 +207,7 @@
 				54F0723329C0EA240053DC06 /* LoginViewModel.swift */,
 				54FA61DE29C25863001E6FF6 /* HomeViewModel.swift */,
 				544CA24129C4F5CF002832A9 /* ProfileViewModel.swift */,
+				547803F629C607770072805B /* DetailGoodsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -234,6 +250,7 @@
 				54A2162229BF96DA0028B1D4 /* Extension+UITextField.swift */,
 				54B11AEA29C0516000A4D16F /* Extension+String.swift */,
 				54FA61CF29C210E7001E6FF6 /* Extension+UIImage.swift */,
+				5478040029C657B30072805B /* Extension+UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -265,6 +282,7 @@
 				54F0722D29C0E7900053DC06 /* HomeViewController.swift */,
 				543AF61E29C1AB5000AFC504 /* TabBarViewController.swift */,
 				5427D7F029C46AE10067E3C1 /* ProfileViewController.swift */,
+				547803F429C5BF8A0072805B /* DetailGoodsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -296,6 +314,9 @@
 				54FA61D629C2519F001E6FF6 /* CategoryCollectionViewCell.swift */,
 				54FA61DA29C25399001E6FF6 /* FlashSaleCollectionViewCell.swift */,
 				544CA23F29C4F163002832A9 /* ProfileTableViewCell.swift */,
+				547803F829C632390072805B /* DetailGoodsCollectionViewCell.swift */,
+				547803FA29C637B80072805B /* ImageCollectionViewCell.swift */,
+				547803FC29C651690072805B /* ColorCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -454,12 +475,15 @@
 				54F0722E29C0E7900053DC06 /* HomeViewController.swift in Sources */,
 				54FA61DD29C25436001E6FF6 /* CollectionCellProtocol.swift in Sources */,
 				544CD86329BD24B800D9B875 /* Resources.swift in Sources */,
+				547803F929C632390072805B /* DetailGoodsCollectionViewCell.swift in Sources */,
+				547803FB29C637B80072805B /* ImageCollectionViewCell.swift in Sources */,
 				544CD86829BD258F00D9B875 /* Extension+UIView.swift in Sources */,
 				54F0723429C0EA240053DC06 /* LoginViewModel.swift in Sources */,
 				54F0722629C0D3760053DC06 /* Data.xcdatamodeld in Sources */,
 				544CD84929BCCF8300D9B875 /* SceneDelegate.swift in Sources */,
 				54FA61DF29C25863001E6FF6 /* HomeViewModel.swift in Sources */,
 				54F0723229C0E8BF0053DC06 /* User+CoreDataProperties.swift in Sources */,
+				547803F529C5BF8A0072805B /* DetailGoodsViewController.swift in Sources */,
 				54B11AEB29C0516000A4D16F /* Extension+String.swift in Sources */,
 				543AF62129C1FBDD00AFC504 /* LoginViewModelProtocol.swift in Sources */,
 				544CA24229C4F5CF002832A9 /* ProfileViewModel.swift in Sources */,
@@ -473,11 +497,15 @@
 				54F0722C29C0D4E10053DC06 /* DataStorageManager.swift in Sources */,
 				54F0723129C0E8BF0053DC06 /* User+CoreDataClass.swift in Sources */,
 				5436C62429C339D400C03962 /* SkeletonLoadable.swift in Sources */,
+				5478040129C657B30072805B /* Extension+UIColor.swift in Sources */,
 				544CA24029C4F163002832A9 /* ProfileTableViewCell.swift in Sources */,
+				547803F729C607770072805B /* DetailGoodsViewModel.swift in Sources */,
 				544CD85B29BD23FA00D9B875 /* BaseViewController.swift in Sources */,
 				54FA61E629C25EA8001E6FF6 /* DetailGoods.swift in Sources */,
 				54FA61D529C25093001E6FF6 /* GoodsCollectionViewCell.swift in Sources */,
 				544CD86529BD255500D9B875 /* SpinnerViewController.swift in Sources */,
+				547803FF29C6551B0072805B /* DetailGoodsSupplementaryView.swift in Sources */,
+				547803FD29C651690072805B /* ColorCollectionViewCell.swift in Sources */,
 				54FA61E429C25E22001E6FF6 /* FlashSale.swift in Sources */,
 				544CA24429C4F6C1002832A9 /* ProfileCellOption.swift in Sources */,
 				54A2162129BF96C60028B1D4 /* Extension+UIButton.swift in Sources */,

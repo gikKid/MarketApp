@@ -40,7 +40,6 @@ extension ProfileViewController {
     
     override func configure() {
         super.configure()
-        self.navigationController?.navigationBar.isHidden = true
         
         topLabel.text = Resources.Titles.profile
         topLabel.font = .boldSystemFont(ofSize: UIConstants.topLabelFont)

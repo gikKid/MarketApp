@@ -30,7 +30,7 @@ class BaseViewController: UIViewController {
 @objc extension BaseViewController {
     public func addViews() {}
     public func configure() {
-        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.barTintColor = .secondarySystemBackground
         self.view.backgroundColor = .systemBackground
     }

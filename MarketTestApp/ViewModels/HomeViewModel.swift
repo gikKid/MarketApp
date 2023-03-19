@@ -54,7 +54,10 @@ final class HomeViewModel:NSObject {
         } else {
             searchString.append(character)
         }
-        guard let apiWords = self.APIWords else {return}
+        guard let apiWords = self.APIWords else {
+            self.fetchAPIWords()
+            return
+        }
         self.resultSearch = apiWords.filter{$0.lowercased().contains(searchString.lowercased())}
         self.state = .reloadSearchTableView
     }

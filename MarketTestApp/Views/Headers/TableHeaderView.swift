@@ -18,6 +18,10 @@ class TableHeaderView: UIView {
         static let nameFont = 18.0
         static let uploadItemHeight = 40.0
         static let uploadItemButtonLeftAnchor = 40.0
+        static let changePhotoButtonTopAnchor = 5.0
+        static let nameLabelTopAnchor = 20.0
+        static let nameLabelBottomAnchor = 3.0
+        static let imageBorderWidth = 1.0
     }
 
     struct Model {
@@ -53,7 +57,7 @@ extension TableHeaderView {
         self.backgroundColor = .systemBackground
         
         imageView.layer.masksToBounds = false
-        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderWidth = UIConstants.imageBorderWidth
         imageView.layer.borderColor = UIColor.lightGray.cgColor
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -74,10 +78,8 @@ extension TableHeaderView {
         uploadItemButton.setTitle(Resources.Titles.uploadItem, for: .normal)
         uploadItemButton.setImage( UIImage(systemName: Resources.Images.share,withConfiguration: UIImage.SymbolConfiguration(pointSize: 0, weight: .bold, scale: .medium)), for: .normal)
         uploadItemButton.layer.masksToBounds = true
-        uploadItemButton.isEnabled = false
         uploadItemButton.layer.cornerRadius = Resources.CornerRadius.buttonCornerSignIn
         uploadItemButton.setTitleColor(.white, for: .normal)
-        uploadItemButton.imageView?.tintColor = UIColor.white
         uploadItemButton.tintColor = .white
         if let image = uploadItemButton.imageView?.image {
             uploadItemButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: image.size.width * 4)
@@ -92,9 +94,10 @@ extension TableHeaderView {
             imageView.widthAnchor.constraint(equalToConstant: UIConstants.imageWidth),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
             changePhotoButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            changePhotoButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
+            changePhotoButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: UIConstants.changePhotoButtonTopAnchor),
             nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            nameLabel.topAnchor.constraint(equalTo: changePhotoButton.bottomAnchor,constant: 20),
+            nameLabel.topAnchor.constraint(lessThanOrEqualTo: changePhotoButton.bottomAnchor,constant: UIConstants.nameLabelTopAnchor),
+            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: uploadItemButton.topAnchor, constant: -UIConstants.nameLabelBottomAnchor),
             uploadItemButton.heightAnchor.constraint(equalToConstant: UIConstants.uploadItemHeight),
             uploadItemButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             uploadItemButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -UIConstants.uploadItemButtonLeftAnchor),
