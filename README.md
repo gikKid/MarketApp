@@ -1,5 +1,5 @@
-Demo Market appllication using **UIKit**
+Demo Market: appllication shows goods collection like e-commerce UI with login and signin views
 
 # Architecture: **MVVM**
 
-# Technologies: **Combine**, **Network API**, **CoreData**
+# Technologies: **UIKit**, **Combine**, **Network API**, **CoreData**
