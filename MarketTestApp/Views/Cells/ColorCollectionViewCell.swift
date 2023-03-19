@@ -32,6 +32,7 @@ class ColorCollectionViewCell: UICollectionViewCell {
 
 extension ColorCollectionViewCell {
     private func setupView() {
+        self.clipsToBounds = true
         self.layer.cornerRadius = UIConstants.cornerRadius
         self.layer.borderWidth = UIConstants.borderWidth
         self.layer.borderColor = UIColor.lightGray.cgColor

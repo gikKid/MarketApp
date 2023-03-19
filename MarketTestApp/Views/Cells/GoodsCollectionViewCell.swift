@@ -14,7 +14,7 @@ class GoodsCollectionViewCell: UICollectionViewCell {
         static let priceFont = 10.0
         static let nameFont = 13.0
         static let categoryFont = 11.0
-        static let imageCornerRadius = 10.0
+        static let cornerRadius = 10.0
         static let categoryCornerRadius = 9.0
         static let leftRightAnchor = 10.0
         static let topBottomAnchor = 2.0
@@ -35,9 +35,9 @@ class GoodsCollectionViewCell: UICollectionViewCell {
 extension GoodsCollectionViewCell:CollectionCellProtocol {
     
     func setupView() {
+        self.layer.cornerRadius = Constants.cornerRadius
+        self.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = Constants.imageCornerRadius
         self.addView(imageView)
         
         priceLabel.text = Constants.priceInitText

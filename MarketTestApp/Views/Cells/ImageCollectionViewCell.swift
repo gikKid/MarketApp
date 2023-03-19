@@ -28,9 +28,9 @@ class ImageCollectionViewCell: UICollectionViewCell {
 
 extension ImageCollectionViewCell {
     private func setupView() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = UIConstants.cornerRadius
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = UIConstants.cornerRadius
         self.addView(imageView)
     }
     
