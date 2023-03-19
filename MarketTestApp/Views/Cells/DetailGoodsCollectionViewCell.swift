@@ -88,12 +88,10 @@ extension DetailGoodsCollectionViewCell:SkeletonLoadable {
         self.nameLabel.layer.addSublayer(gradient)
         self.priceLabel.layer.addSublayer(gradient)
         self.descriptionLabel.layer.addSublayer(gradient)
-        self.ratingLabel.layer.addSublayer(gradient)
-        self.reviewsLabel.layer.addSublayer(gradient)
         
         let animationGroup = self.makeAnimationGroup()
         animationGroup.beginTime = 0.0
         gradient.add(animationGroup, forKey: Resources.Keys.gradientBackground)
-        gradient.frame = self.bounds
+        gradient.frame = self.nameLabel.bounds
     }
 }

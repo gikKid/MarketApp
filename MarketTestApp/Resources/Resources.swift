@@ -129,10 +129,11 @@ enum Resources {
         static let questionCircle = "questionCircle"
         static let logout = "logout"
         static let chevronRight = "chevron.right"
-        static let shareCustom = "shareCustom"
         static let chevronLeft = "chevron.left"
         static let minus = "minus"
         static let plus = "plus"
         static let star = "star"
+        static let purpleHeart = "purpleHeart"
+        static let customShare = "customShare"
     }
 }

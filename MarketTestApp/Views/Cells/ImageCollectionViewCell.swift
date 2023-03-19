@@ -6,7 +6,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
     private let imageView = UIImageView()
     
     private enum UIConstants {
-        static let imageCornerRadius = 10.0
+        static let cornerRadius = 10.0
     }
     
     override init(frame: CGRect) {
@@ -30,7 +30,7 @@ extension ImageCollectionViewCell {
     private func setupView() {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = UIConstants.imageCornerRadius
+        imageView.layer.cornerRadius = UIConstants.cornerRadius
         self.addView(imageView)
     }
     

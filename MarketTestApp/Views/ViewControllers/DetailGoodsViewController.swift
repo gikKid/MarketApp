@@ -12,6 +12,7 @@ class DetailGoodsViewController: BaseViewController {
     let bottomCartView = UIView()
     let totalPriceLabel = UILabel()
     let addToCartLabel = UILabel()
+    let actionVerticalStackView = UIStackView()
     private var priceSubscriber:AnyCancellable?
     lazy var viewModel = {
        DetailGoodsViewModel()
@@ -42,6 +43,9 @@ class DetailGoodsViewController: BaseViewController {
         static let secondSectionImageHeight = 50.0
         static let thirdSectionHeight = 100.0
         static let fourthSectionHeight = 30.0
+        static let dividerWidth = 12.0
+        static let actionViewCornerRadius = 13.0
+        static let actionViewRightAnchor = 20.0
     }
     
     override func viewDidLoad() {
@@ -74,6 +78,7 @@ extension DetailGoodsViewController {
         self.view.addView(backButton)
         self.view.addView(collectionView)
         self.view.addView(bottomCartView)
+        self.view.addView(actionVerticalStackView)
         bottomCartView.addView(quantityLabel)
         bottomCartView.addView(minusButton)
         bottomCartView.addView(plusButton)
@@ -125,6 +130,35 @@ extension DetailGoodsViewController {
         totalPriceLabel.textColor = .lightGray
         totalPriceLabel.font = .systemFont(ofSize: UIConstants.addToCartFont)
         totalPriceLabel.text = "$0"
+        
+        actionVerticalStackView.alignment = .center
+        actionVerticalStackView.axis = .vertical
+        actionVerticalStackView.distribution = .equalSpacing
+        actionVerticalStackView.spacing = 10
+        
+        let heartButton = UIButton()
+        heartButton.setImage(UIImage(named: Resources.Images.purpleHeart), for: .normal)
+        heartButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10)
+        actionVerticalStackView.addArrangedSubview(heartButton)
+        
+        let dividerView = UIView()
+        dividerView.widthAnchor.constraint(equalToConstant: UIConstants.dividerWidth).isActive = true
+        dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        dividerView.backgroundColor = UIColor(named: Resources.Colors.selectedTabBar)!.withAlphaComponent(0.9)
+        actionVerticalStackView.addArrangedSubview(dividerView)
+        
+        let shareButton = UIButton()
+        shareButton.setImage(UIImage(named: Resources.Images.customShare), for: .normal)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 10, right: 10)
+        actionVerticalStackView.addArrangedSubview(shareButton)
+        
+        let backSubView = UIView(frame: actionVerticalStackView.bounds)
+        backSubView.backgroundColor = .systemGray6
+        backSubView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        actionVerticalStackView.insertSubview(backSubView, at: 0)
+        backSubView.layer.cornerRadius = UIConstants.actionViewCornerRadius
+        backSubView.layer.masksToBounds = true
+        backSubView.clipsToBounds = true
     }
     
     override func layoutViews() {
@@ -157,7 +191,9 @@ extension DetailGoodsViewController {
             addToCartLabel.rightAnchor.constraint(equalTo: addToCartView.rightAnchor, constant: -UIConstants.addToCartLabelRightAnchor),
             totalPriceLabel.centerYAnchor.constraint(equalTo: addToCartView.centerYAnchor),
             totalPriceLabel.leftAnchor.constraint(equalTo: addToCartView.leftAnchor, constant: UIConstants.totalPriceLeftAnchor),
-            totalPriceLabel.rightAnchor.constraint(lessThanOrEqualTo: addToCartLabel.leftAnchor, constant: -UIConstants.totalPriceLabelRightAnchor)
+            totalPriceLabel.rightAnchor.constraint(lessThanOrEqualTo: addToCartLabel.leftAnchor, constant: -UIConstants.totalPriceLabelRightAnchor),
+            actionVerticalStackView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -UIConstants.actionViewRightAnchor),
+            actionVerticalStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: self.view.frame.height / 3.8)
         ])
     }
 }
@@ -347,6 +383,16 @@ extension DetailGoodsViewController:UICollectionViewDelegate,UICollectionViewDel
             }
         default:
             return UICollectionReusableView()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 1:
+            let indexPath = IndexPath(item: indexPath.row, section: 0)
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        default:
+            break
         }
     }
 }
