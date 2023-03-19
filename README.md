@@ -1,5 +1,5 @@
-Demo Market appllication
+Demo Market appllication using **UIKit**
 
 # Architecture: **MVVM**
 
-# Technologies: **Combine**
+# Technologies: **Combine**, **Network API**, **CoreData**
