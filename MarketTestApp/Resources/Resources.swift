@@ -56,6 +56,7 @@ enum Resources {
     }
     
     enum Titles {
+        static let settings = "Settings"
         static let error = "Error"
         static let confirmAlertActionTitle = "OK"
         static let signIn = "Sign in"

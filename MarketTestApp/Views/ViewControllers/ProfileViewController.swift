@@ -1,4 +1,5 @@
 import UIKit
+import PhotosUI
 
 class ProfileViewController: BaseViewController {
 
@@ -77,14 +78,26 @@ extension ProfileViewController {
     private func showPickerAlert() {
         let pickerAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         pickerAlert.addAction(UIAlertAction(title: Resources.Titles.takePhoto, style: .default,handler: { _ in
-            self.avatarPhotoPicker.sourceType = .camera // in device simulator it will be crashed !!!
-            self.present(self.avatarPhotoPicker, animated: true)
+            checkCameraAccess(controller: self, onAccessCompletion: {
+                self.avatarPhotoPicker.sourceType = .camera // in device simulator it will be crashed !!!
+                self.present(self.avatarPhotoPicker, animated: true)
+            })
         }))
         pickerAlert.addAction(UIAlertAction(title: Resources.Titles.chooseFromPhotoGallery, style: .default,handler: { _ in
             self.present(self.avatarPhotoPicker, animated: true)
         }))
         pickerAlert.addAction(UIAlertAction(title: Resources.Titles.cancel, style: .cancel))
         self.present(pickerAlert, animated: true)
+    }
+    
+    private func showChangeAvatarActionAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Change avatar", style: .default,handler: { [weak self] _ in
+            guard let self = self else {return}
+            self.showPickerAlert()
+        }))
+        alert.addAction(UIAlertAction(title: Resources.Titles.cancel, style: .cancel))
+        self.present(alert, animated: true)
     }
 }
 
@@ -132,13 +145,9 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
 //MARK: - TableHeaderViewDelegate
 extension ProfileViewController: TableHeaderViewProtocol {
     func userTapChangePhotoButton() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Change avatar", style: .default,handler: { [weak self] _ in
-            guard let self = self else {return}
-            self.showPickerAlert()
-        }))
-        alert.addAction(UIAlertAction(title: Resources.Titles.cancel, style: .cancel))
-        self.present(alert, animated: true)
+        PHPhotoLibrary.execute(controller: self, onAccessHasBeenGranted: { [weak self] in
+            self?.showChangeAvatarActionAlert()
+        })
     }
 }
 

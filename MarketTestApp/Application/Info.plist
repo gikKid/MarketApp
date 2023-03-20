@@ -13,7 +13,7 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow permision to take photo for change profile image</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please allow permision to update profile image</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
