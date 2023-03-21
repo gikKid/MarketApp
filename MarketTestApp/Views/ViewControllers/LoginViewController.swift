@@ -39,6 +39,7 @@ class LoginViewController: BaseViewController {
         
         self.viewModel.errorCompletion = { [weak self] errorMessage in
             guard let self = self else {return}
+            self.hideSpinnerView()
             self.present(self.createInfoAlert(message: errorMessage, title: Resources.Titles.error), animated: true)
         }
         self.viewModel.stateCompletion = { state in

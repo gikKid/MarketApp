@@ -53,6 +53,7 @@ class SignInViewController: BaseViewController {
         
         self.viewModel.errorCompletion = {[weak self] errorText in
             guard let self = self else {return}
+            self.hideSpinnerView()
             self.present(self.createInfoAlert(message: errorText, title: Resources.Titles.error), animated: true)
         }
         
