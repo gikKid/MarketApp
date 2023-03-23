@@ -173,6 +173,7 @@
 		544CD84529BCCF8300D9B875 /* MarketTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				54A125F129BD2E4F0020C633 /* Coordinators */,
 				54A861B529CC66AC00E24D14 /* Fonts */,
 				54F0722229C0D2F90053DC06 /* Services */,
 				54A125E629BD29870020C633 /* Protocols */,
@@ -226,7 +227,6 @@
 		544CD85F29BD244E00D9B875 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				54A125F129BD2E4F0020C633 /* Coordinators */,
 				544CD84629BCCF8300D9B875 /* AppDelegate.swift */,
 				544CD84829BCCF8300D9B875 /* SceneDelegate.swift */,
 				544CD85129BCCF8700D9B875 /* LaunchScreen.storyboard */,
