@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct FlashSaleWrapper: Decodable {
     let flashSale: [FlashSale]
@@ -8,7 +9,7 @@ struct FlashSaleWrapper: Decodable {
     }
 }
 
-// MARK: - FlashSale
+
 struct FlashSale: Decodable {
     let category, name: String
     let price: Double

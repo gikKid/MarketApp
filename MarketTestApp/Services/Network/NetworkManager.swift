@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 enum NetworkError:Error {
-    case noData
+    case noData(String)
 }
 
 class NetworkManager {
@@ -16,7 +16,7 @@ class NetworkManager {
             }
             
             guard let data = data else {
-                DispatchQueue.main.async {completion(nil, NetworkError.noData)}
+                DispatchQueue.main.async {completion(nil, NetworkError.noData("Failed to get network data"))}
                 return
             }
             

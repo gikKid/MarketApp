@@ -4,7 +4,7 @@ struct LatestWrapper: Decodable {
     let latest: [Latest]
 }
 
-// MARK: - Latest
+
 struct Latest: Decodable {
     let category, name: String
     let price: Int

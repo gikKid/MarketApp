@@ -134,32 +134,9 @@ final class HomeViewModel:NSObject {
         }
     }
     
-    private func getLatestData(completion: @escaping ([Latest]) -> Void) {
-        guard let url = URL(string: Resources.Links.latest) else {return}
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.networkManager.load(url: url) { (result: LatestWrapper? ,error:Error?)   in
-                if let error = error {
-                    self.errorCompletion?("\(error.localizedDescription)")
-                    return
-                }
-                guard let result = result else {return}
-                DispatchQueue.main.async {completion(result.latest)}
-            }
-        }
-    }
-
-    private func getFlashSaleData(completion: @escaping ([FlashSale]) -> Void) {
-        guard let url = URL(string: Resources.Links.flashSale) else {return}
-         DispatchQueue.global(qos: .userInitiated).async {
-             self.networkManager.load(url: url) { (result: FlashSaleWrapper?,error:Error? )  in
-                 if let error = error {
-                     self.errorCompletion?("\(error.localizedDescription)")
-                     return
-                 }
-                guard let result = result else {return}
-                DispatchQueue.main.async {completion(result.flashSale)}
-            }
-        }
+    private func loadData<T>(_ urlString:String, withCompletion completion: @escaping (T?,Error?) -> Void ) {
+        guard let url = URL(string: urlString) else {return}
+        DispatchQueue.global(qos: .userInitiated).async {self.networkManager.load(url: url, withCompletion: completion) }
     }
     
     public func asyncGroupLoadDataFromServer() {
@@ -167,8 +144,13 @@ final class HomeViewModel:NSObject {
         let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
    
         dispatchGroup.enter()
-        getLatestData { data in
-            let latestCellItems = data.map{HomeCellItem(category: $0.category, price: Double($0.price), name: $0.name, image: $0.imageURL)}
+        self.loadData(Resources.Links.latest) { (result: LatestWrapper?, error:Error?) in
+            if let error = error {
+                self.errorCompletion?("\(error.localizedDescription)")
+                return
+            }
+            guard let result = result else {return}
+            let latestCellItems = result.latest.map{HomeCellItem(category: $0.category, price: Double($0.price), name: $0.name, image: $0.imageURL)}
             let latestSection = HomeCellSection.latest(latestCellItems)
             dispatchQueue.sync {
                 self.contentData[Constants.latestKey] = latestSection
@@ -177,8 +159,13 @@ final class HomeViewModel:NSObject {
         }
 
         dispatchGroup.enter()
-        getFlashSaleData { data in
-            let flashSaleCellItems = data.map{HomeCellItem(category: $0.category, price: $0.price, name: $0.name, image: $0.imageURL,discount: $0.discount)}
+        self.loadData(Resources.Links.flashSale) { (result:FlashSaleWrapper?,error:Error?) in
+            if let error = error {
+                self.errorCompletion?("\(error.localizedDescription)")
+                return
+            }
+            guard let result = result else {return}
+            let flashSaleCellItems = result.flashSale.map{HomeCellItem(category: $0.category, price: $0.price, name: $0.name, image: $0.imageURL,discount: $0.discount)}
             let flashSaleSection = HomeCellSection.flashSale(flashSaleCellItems)
             dispatchQueue.sync {
                 self.contentData[Constants.flashSaleKey] = flashSaleSection
