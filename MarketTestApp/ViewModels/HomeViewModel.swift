@@ -147,6 +147,7 @@ final class HomeViewModel:NSObject {
         self.loadData(Resources.Links.latest) { (result: LatestWrapper?, error:Error?) in
             if let error = error {
                 self.errorCompletion?("\(error.localizedDescription)")
+                dispatchGroup.leave()
                 return
             }
             guard let result = result else {return}
@@ -162,6 +163,7 @@ final class HomeViewModel:NSObject {
         self.loadData(Resources.Links.flashSale) { (result:FlashSaleWrapper?,error:Error?) in
             if let error = error {
                 self.errorCompletion?("\(error.localizedDescription)")
+                dispatchGroup.leave()
                 return
             }
             guard let result = result else {return}

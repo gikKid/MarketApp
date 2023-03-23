@@ -20,6 +20,8 @@ final class DetailGoodsViewModel:NSObject {
         }
     }
     public var goodsData:DetailGoods?
+    public var previousSelectedCellIndexPath:IndexPath = .init(row: 0, section: 1) // store previous selected cell in 1 section for shrinking when another one was tapped
+    public var isSelectedImage:Bool = false  // flag parameter to check in willDisplayCell method when not swiping
     private var images:[UIImage] = [] // store loaded images of goods
     @Published private var price = 0
     @Published private var goodsCount = 0

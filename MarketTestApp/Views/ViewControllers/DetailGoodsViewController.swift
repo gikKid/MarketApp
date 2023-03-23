@@ -39,7 +39,7 @@ class DetailGoodsViewController: BaseViewController {
         static let plusButtonLeftAnchor = 20.0
         static let addToCartLabelRightAnchor = 25.0
         static let totalPriceLeftAnchor = 25.0
-        static let secondSectionLeftRightInset = 76.0
+        static let secondSectionLeftRightInset = 60.0
         static let totalPriceLabelRightAnchor = 5.0
         static let collectionTopLeftRightAnchor = 10.0
         static let secondSectionImageHeight = 50.0
@@ -294,6 +294,7 @@ extension DetailGoodsViewController {
         DispatchQueue.main.async {
             self.collectionView.reloadSections(IndexSet(integer: 0))
             self.collectionView.reloadSections(IndexSet(integer: 1))
+            self.collectionView.selectItem(at: IndexPath(item: 0, section: 1), animated: true, scrollPosition: .centeredHorizontally)
         }
     }
     
@@ -348,7 +349,7 @@ extension DetailGoodsViewController:UICollectionViewDelegate,UICollectionViewDel
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Resources.identefiers.imageCell, for: indexPath) as? ImageCollectionViewCell {
                 cell.setShimmer()
                 if let image = self.viewModel.getImage(indexPath) {
-                    cell.configureCell(image)
+                    cell.configureCell(image,.scalable)
                 }
                 return cell
             } else {return UICollectionViewCell()}
@@ -391,8 +392,37 @@ extension DetailGoodsViewController:UICollectionViewDelegate,UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 1:
-            let indexPath = IndexPath(item: indexPath.row, section: 0)
-            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            guard self.viewModel.previousSelectedCellIndexPath != indexPath else {return}
+            let largeImageIndexPath = IndexPath(item: indexPath.row, section: 0)
+            collectionView.selectItem(at: largeImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            guard let previousSelectedCell = collectionView.cellForItem(at: self.viewModel.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
+            previousSelectedCell.shrink()
+            self.viewModel.previousSelectedCellIndexPath = indexPath
+            self.viewModel.isSelectedImage = true
+        default:
+            break
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            guard self.viewModel.isSelectedImage != true else {return}
+            let smallImageIndexPath = IndexPath(item: indexPath.row, section: 1)
+            collectionView.selectItem(at: smallImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            guard self.viewModel.previousSelectedCellIndexPath != smallImageIndexPath else {return}
+            guard let previousSelectedCell = collectionView.cellForItem(at: self.viewModel.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
+            previousSelectedCell.shrink()
+            self.viewModel.previousSelectedCellIndexPath = smallImageIndexPath
+        default:
+            break
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            self.viewModel.isSelectedImage = false
         default:
             break
         }
