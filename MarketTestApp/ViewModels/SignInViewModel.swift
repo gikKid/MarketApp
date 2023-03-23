@@ -69,7 +69,12 @@ final class SignInViewModel:NSObject {
         do {
             let users = try DataStorageManager.shared.loadLocalUsers()
             if !users.isEmpty {
-                users.forEach{isUnique = $0.email == self.email ? false : true}
+                users.forEach{ user in
+                    if user.email == self.email {
+                        isUnique = false
+                        return
+                    }
+                }
             } else {
                 isUnique = true
             }

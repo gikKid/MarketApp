@@ -15,6 +15,12 @@
 	<string>Please allow permision to take photo for change profile image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please allow permision to update profile image</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Montserrat-Medium.ttf</string>
+		<string>Montserrat-SemiBold.ttf</string>
+		<string>TruenoBd.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

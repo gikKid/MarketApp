@@ -4,7 +4,7 @@ enum ProfileViewState {
     case logout,none
 }
 
-final class ProfileViewModel:NSObject {
+final class ProfileViewModel:NSObject, ProfileViewModelProtocol {
 
     public var stateCompletion: ((ProfileViewState) -> Void)?
     private var state:ProfileViewState = .none {
@@ -40,6 +40,7 @@ final class ProfileViewModel:NSObject {
             switch cell.titleLabel.text {
             case Resources.Titles.logout:
                 self.state = .logout
+                self.saveLogout()
             default:
                 break
             }

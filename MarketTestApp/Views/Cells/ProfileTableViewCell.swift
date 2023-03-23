@@ -8,7 +8,7 @@ class ProfileTableViewCell: UITableViewCell {
     let iconContainerView = UIView()
     
     private enum UIConstants {
-        static let titleFont = 18.0
+        static let titleFont = 15.0
         static let labelXOffset = 25.0
         static let iconLeftAnchor = 35.0
         static let rightImageAnchor = 40.0
@@ -63,7 +63,7 @@ extension ProfileTableViewCell {
         contentView.addView(iconContainerView)
         
         titleLabel.numberOfLines = 1
-        titleLabel.font = .systemFont(ofSize: UIConstants.titleFont)
+        titleLabel.font = UIFont(name: Resources.FontsName.montserratMedium, size: UIConstants.titleFont)
         contentView.addView(titleLabel)
         
         rightButton.tintColor = .black

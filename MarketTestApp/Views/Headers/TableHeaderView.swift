@@ -15,13 +15,14 @@ class TableHeaderView: UIView {
     private enum UIConstants {
         static let imageWidth = 63.0
         static let changePhotoFont = 12.0
-        static let nameFont = 18.0
+        static let nameFont = 17.0
         static let uploadItemHeight = 40.0
         static let uploadItemButtonLeftAnchor = 40.0
         static let changePhotoButtonTopAnchor = 5.0
-        static let nameLabelTopAnchor = 20.0
+        static let nameLabelTopAnchor = 15.0
         static let nameLabelBottomAnchor = 3.0
         static let imageBorderWidth = 1.0
+        static let titleFontUploadItem = 15.0
     }
 
     struct Model {
@@ -64,8 +65,8 @@ extension TableHeaderView {
         imageView.layer.cornerRadius =  UIConstants.imageWidth / 2
         self.addView(imageView)
         
-        nameLabel.font = .boldSystemFont(ofSize: UIConstants.nameFont)
-        nameLabel.textColor = .darkGray
+        nameLabel.font = UIFont(name: Resources.FontsName.truenoBd, size: UIConstants.nameFont)
+        nameLabel.textColor = .black.withAlphaComponent(0.75)
         self.addView(nameLabel)
         
         changePhotoButton.setTitleColor(.gray, for: .normal)
@@ -80,6 +81,7 @@ extension TableHeaderView {
         uploadItemButton.layer.masksToBounds = true
         uploadItemButton.layer.cornerRadius = Resources.CornerRadius.buttonCornerSignIn
         uploadItemButton.setTitleColor(.white, for: .normal)
+        uploadItemButton.titleLabel?.font = UIFont(name: Resources.FontsName.montserratSemibold, size: UIConstants.titleFontUploadItem)
         uploadItemButton.tintColor = .white
         if let image = uploadItemButton.imageView?.image {
             uploadItemButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: image.size.width * 4)

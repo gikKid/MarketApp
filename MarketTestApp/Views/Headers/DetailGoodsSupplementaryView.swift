@@ -21,7 +21,7 @@ class DetailGoodsSupplementaryView: UICollectionReusableView {
 
 extension DetailGoodsSupplementaryView {
     private func setupView() {
-        colorLabel.textColor = .gray
+        colorLabel.textColor = .darkGray
         colorLabel.font = .boldSystemFont(ofSize: UIConstants.labelFont)
         colorLabel.text = "\(Resources.Titles.color):"
         self.addView(colorLabel)

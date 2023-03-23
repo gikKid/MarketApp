@@ -43,7 +43,13 @@ extension ProfileViewController {
         super.configure()
         
         topLabel.text = Resources.Titles.profile
-        topLabel.font = .boldSystemFont(ofSize: UIConstants.topLabelFont)
+        topLabel.textColor = .black
+        topLabel.font = UIFont(name: Resources.FontsName.truenoBd, size: UIConstants.topLabelFont)
+        topLabel.layer.shadowColor = UIColor.black.cgColor
+        topLabel.layer.shadowRadius = 3.0
+        topLabel.layer.shadowOpacity = 0.35
+        topLabel.layer.shadowOffset = CGSize(width: 4, height: 4)
+        topLabel.layer.masksToBounds = false
         
         tableHeaderView.delegate = self
         tableHeaderView.model = .init(name: "Satria Adhi Pradana", image: UIImage(named: Resources.Images.profileCustom))

@@ -19,26 +19,28 @@ class DetailGoodsViewController: BaseViewController {
     }()
     
     private enum UIConstants {
-        static let bottomCartViewHeight = 85.0
+        static let bottomCartViewHeight = 98.0
         static let bottomCartViewCornerRadius = 25.0
         static let backButtonImageConfigure = UIImage.SymbolConfiguration(pointSize: 0, weight: .bold, scale: .large)
         static let mathButtonImageConfigure = UIImage.SymbolConfiguration(scale: .small)
-        static let quantityLabelFont = 13.0
-        static let minusButtonWidth = 39.0
-        static let minusButtonHeight = 22.0
-        static let minusButtonCornerRadius = 7.0
+        static let quantityLabelFont = 11.0
+        static let minusButtonWidth = 43.0
+        static let minusButtonHeight = 25.0
+        static let minusButtonCornerRadius = 10.0
         static let addToCartViewRightAnchor = 25.0
         static let addToCartViewLeftAnchor = 60.0
         static let addToCartViewCornerRadius = 15.0
-        static let addToCartFont = 12.0
+        static let addToCartFont = 10.0
+        static let totalPriceFont = 9.5
         static let backButtonLeftTopAnchor = 15.0
-        static let quantityLabelTopLeftAnchor = 15.0
+        static let quantityBottomAnchor = 13.0
+        static let quantityLeftAnchor = 25.0
         static let minusButtonTopAnchor = 15.0
         static let plusButtonLeftAnchor = 20.0
         static let addToCartLabelRightAnchor = 25.0
-        static let totalPriceLeftAnchor = 30.0
+        static let totalPriceLeftAnchor = 25.0
         static let secondSectionLeftRightInset = 76.0
-        static let totalPriceLabelRightAnchor = 10.0
+        static let totalPriceLabelRightAnchor = 5.0
         static let collectionTopLeftRightAnchor = 10.0
         static let secondSectionImageHeight = 50.0
         static let thirdSectionHeight = 100.0
@@ -65,8 +67,8 @@ class DetailGoodsViewController: BaseViewController {
         }
         priceSubscriber = self.viewModel.pricePublished
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { price in
-                self.totalPriceLabel.text = "$ \(price)"
+            .sink(receiveValue: { text in
+                self.totalPriceLabel.text = text
             })
     }
 }
@@ -128,7 +130,7 @@ extension DetailGoodsViewController {
         addToCartLabel.textColor = .white
         
         totalPriceLabel.textColor = .lightGray
-        totalPriceLabel.font = .systemFont(ofSize: UIConstants.addToCartFont)
+        totalPriceLabel.font = .systemFont(ofSize: UIConstants.totalPriceFont)
         totalPriceLabel.text = "$0"
         
         actionVerticalStackView.alignment = .center
@@ -173,12 +175,12 @@ extension DetailGoodsViewController {
             bottomCartView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             bottomCartView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             bottomCartView.heightAnchor.constraint(equalToConstant: UIConstants.bottomCartViewHeight),
-            quantityLabel.topAnchor.constraint(equalTo: bottomCartView.topAnchor, constant: UIConstants.quantityLabelTopLeftAnchor),
-            quantityLabel.leftAnchor.constraint(equalTo: bottomCartView.leftAnchor, constant: UIConstants.quantityLabelTopLeftAnchor),
+            quantityLabel.leftAnchor.constraint(equalTo: bottomCartView.leftAnchor, constant: UIConstants.quantityLeftAnchor),
+            quantityLabel.bottomAnchor.constraint(equalTo: minusButton.topAnchor,constant: -UIConstants.quantityBottomAnchor),
             minusButton.widthAnchor.constraint(equalToConstant: UIConstants.minusButtonWidth),
             minusButton.heightAnchor.constraint(equalToConstant: UIConstants.minusButtonHeight),
             minusButton.leftAnchor.constraint(equalTo: quantityLabel.leftAnchor),
-            minusButton.topAnchor.constraint(equalTo: quantityLabel.bottomAnchor, constant: UIConstants.minusButtonTopAnchor),
+            minusButton.topAnchor.constraint(equalTo: addToCartView.centerYAnchor),
             plusButton.topAnchor.constraint(equalTo: minusButton.topAnchor),
             plusButton.leftAnchor.constraint(equalTo: minusButton.rightAnchor, constant: UIConstants.plusButtonLeftAnchor),
             plusButton.widthAnchor.constraint(equalTo: minusButton.widthAnchor),
@@ -263,7 +265,7 @@ extension DetailGoodsViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 10, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = .init(top: 20, leading: 0, bottom: 10, trailing: 0)
         return section
     }
     
@@ -280,7 +282,7 @@ extension DetailGoodsViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [supplementaryHeaderItem()]
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = .init(top: 0, leading: 10, bottom: 10, trailing: 0)
+        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 0)
         return section
     }
     

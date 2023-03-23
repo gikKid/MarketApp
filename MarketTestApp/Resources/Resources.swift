@@ -15,6 +15,12 @@ enum Resources {
         static let colorDetailGoodsCell = "colorDetailGoodsCell"
     }
     
+    enum FontsName {
+        static let truenoBd = "TruenoBd"
+        static let montserratSemibold = "Montserrat-SemiBold"
+        static let montserratMedium = "Montserrat-Medium"
+    }
+    
     enum Keys {
         static let isEntered = "isEntered"
         static let gradientBackground = "backgroundColor"

@@ -15,7 +15,7 @@ class DetailGoodsCollectionViewCell: UICollectionViewCell {
         static let priceLabelFont = 15.0
         static let infoFont = 12.0
         static let leftRightAnchor = 10.0
-        static let topAnchor = 10.0
+        static let topAnchor = 15.0
         static let btwInfoAnchor = 2.0
     }
     
@@ -45,6 +45,7 @@ extension DetailGoodsCollectionViewCell {
         nameLabel.numberOfLines = 0
         self.addView(nameLabel)
         priceLabel.font = .boldSystemFont(ofSize: UIConstants.priceLabelFont)
+        priceLabel.textColor = .black
         self.addView(priceLabel)
         descriptionLabel.font = .systemFont(ofSize: UIConstants.infoFont)
         descriptionLabel.textColor = .gray

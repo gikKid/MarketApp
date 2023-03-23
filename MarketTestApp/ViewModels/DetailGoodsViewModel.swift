@@ -21,9 +21,14 @@ final class DetailGoodsViewModel:NSObject {
     }
     public var goodsData:DetailGoods?
     private var images:[UIImage] = [] // store loaded images of goods
-    @Published private var totalPrice = 0
-    var pricePublished:AnyPublisher<Int,Never> {
-        $totalPrice.map{$0}.eraseToAnyPublisher()
+    @Published private var price = 0
+    @Published private var goodsCount = 0
+
+    var pricePublished:AnyPublisher<String,Never> {
+        Publishers.CombineLatest($price, $goodsCount)
+            .map{ price, count in
+                return "#\(count), $\(price)"
+            }.eraseToAnyPublisher()
     }
     
     private enum Constants {
@@ -116,11 +121,14 @@ final class DetailGoodsViewModel:NSObject {
         guard let price = self.goodsData?.price else {return}
         switch mathOperation {
         case .plus:
-            self.totalPrice += price
+            self.price += price
+            self.goodsCount += 1
         case .minus:
-            self.totalPrice -= price
-            guard self.totalPrice >= 0 else {
-                self.totalPrice = 0
+            self.price -= price
+            self.goodsCount -= 1
+            guard self.price >= 0 else {
+                self.price = 0
+                self.goodsCount = 0
                 return
             }
         }
