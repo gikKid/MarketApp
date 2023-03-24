@@ -390,41 +390,14 @@ extension DetailGoodsViewController:UICollectionViewDelegate,UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 1:
-            guard self.viewModel.previousSelectedCellIndexPath != indexPath else {return}
-            let largeImageIndexPath = IndexPath(item: indexPath.row, section: 0)
-            collectionView.selectItem(at: largeImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-            guard let previousSelectedCell = collectionView.cellForItem(at: self.viewModel.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
-            previousSelectedCell.shrink()
-            self.viewModel.previousSelectedCellIndexPath = indexPath
-            self.viewModel.isSelectedImage = true
-        default:
-            break
-        }
+        self.viewModel.didSelectItemAt(collectionView, indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            guard self.viewModel.isSelectedImage != true else {return}
-            let smallImageIndexPath = IndexPath(item: indexPath.row, section: 1)
-            collectionView.selectItem(at: smallImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
-            guard self.viewModel.previousSelectedCellIndexPath != smallImageIndexPath else {return}
-            guard let previousSelectedCell = collectionView.cellForItem(at: self.viewModel.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
-            previousSelectedCell.shrink()
-            self.viewModel.previousSelectedCellIndexPath = smallImageIndexPath
-        default:
-            break
-        }
+        self.viewModel.willDisplay(collectionView, indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            self.viewModel.isSelectedImage = false
-        default:
-            break
-        }
+        self.viewModel.didEndDisplaying(indexPath)
     }
 }

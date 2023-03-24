@@ -135,4 +135,44 @@ final class DetailGoodsViewModel:NSObject {
             }
         }
     }
+    
+    public func didSelectItemAt(_ collectionView:UICollectionView, _ indexPath:IndexPath) {
+        switch indexPath.section {
+        case 1:
+            guard self.previousSelectedCellIndexPath != indexPath else {return}
+            let largeImageIndexPath = IndexPath(item: indexPath.row, section: 0)
+            collectionView.selectItem(at: largeImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            guard let previousSelectedCell = collectionView.cellForItem(at: self.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
+            previousSelectedCell.shrink()
+            self.previousSelectedCellIndexPath = indexPath
+            self.isSelectedImage = true
+        default:
+            break
+        }
+    }
+    
+    public func willDisplay(_ collectionView:UICollectionView, _ indexPath:IndexPath) {
+        switch indexPath.section {
+        case 0:
+            guard self.isSelectedImage != true else {return}
+            let smallImageIndexPath = IndexPath(item: indexPath.row, section: 1)
+            collectionView.selectItem(at: smallImageIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            guard self.previousSelectedCellIndexPath != smallImageIndexPath else {return}
+            guard let previousSelectedCell = collectionView.cellForItem(at: self.previousSelectedCellIndexPath) as? ImageCollectionViewCell else {return}
+            previousSelectedCell.shrink()
+            self.previousSelectedCellIndexPath = smallImageIndexPath
+        default:
+            break
+        }
+    }
+    
+    public func didEndDisplaying(_ indexPath:IndexPath) {
+        switch indexPath.section {
+        case 0:
+            self.isSelectedImage = false
+        default:
+            break
+        }
+    }
+    
 }
